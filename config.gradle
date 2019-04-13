@@ -1,0 +1,15 @@
+ext.versions = [
+
+        // for project
+        releaseVersionName: '0.1.0',
+        releaseVersionCode: 1,
+
+        minSdkVersion     : 16,
+        compileSdkVersion : 28,
+        targetSdkVersion  : 27,
+        // androidx
+        androidX                  : '1.0.0',
+        androidXCompat            : '1.1.0-alpha01',
+        androidXRecycleView       : '1.1.0-alpha01',
+        androidXConstraintlayout  : '2.0.0-alpha3',
+]
