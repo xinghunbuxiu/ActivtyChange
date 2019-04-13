@@ -1,1 +1,1 @@
-include ':app', ':SimulationClick'
+include ':app', ':library:floatwindow'

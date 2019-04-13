@@ -3,11 +3,14 @@ package com.demon.activitychange;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
+import android.provider.Settings.SettingNotFoundException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.text.TextUtils.SimpleStringSplitter;
 import android.util.Log;
-import android.view.View;
+
+import com.demon.UiTools.GlobalView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -17,25 +20,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isAccessibilitySettingsOn(MainActivity.this, ListeningService.class.getCanonicalName())) {
-                    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(MainActivity.this, ListeningService.class);
-                    startService(intent);
-                }
+        boolean isServiceStart = isAccessibilitySettingsOn(this, ListeningService.class.getCanonicalName());
+        if (isServiceStart) {
+            GlobalView.init(this).showView(getPackageName() + "\n" + getClass().getCanonicalName());
+        }
+        findViewById(R.id.start).setOnClickListener(view -> {
+            if (!isServiceStart) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            } else {
+                intent = new Intent(MainActivity.this, ListeningService.class);
+                startService(intent);
             }
         });
 
-        findViewById(R.id.stop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (intent != null) {
-                    stopService(intent);
-                }
+        findViewById(R.id.stop).setOnClickListener(v -> {
+            if (intent != null) {
+                stopService(intent);
             }
         });
     }
@@ -51,20 +52,19 @@ public class MainActivity extends AppCompatActivity {
         int accessibilityEnabled = 0;
         // 对应的服务
         final String service = getPackageName() + "/" + serviceName;
-        //Log.i(TAG, "service:" + service);
         try {
-            accessibilityEnabled = Settings.Secure.getInt(mContext.getApplicationContext().getContentResolver(),
-                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            accessibilityEnabled = Secure.getInt(mContext.getApplicationContext().getContentResolver(),
+                    Secure.ACCESSIBILITY_ENABLED);
             Log.v(TAG, "accessibilityEnabled = " + accessibilityEnabled);
-        } catch (Settings.SettingNotFoundException e) {
+        } catch (SettingNotFoundException e) {
             Log.e(TAG, "Error finding setting, default accessibility to not found: " + e.getMessage());
         }
-        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+        SimpleStringSplitter mStringColonSplitter = new SimpleStringSplitter(':');
 
         if (accessibilityEnabled == 1) {
             Log.v(TAG, "***ACCESSIBILITY IS ENABLED*** -----------------");
-            String settingValue = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(),
-                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            String settingValue = Secure.getString(mContext.getApplicationContext().getContentResolver(),
+                    Secure.ENABLED_ACCESSIBILITY_SERVICES);
             if (settingValue != null) {
                 mStringColonSplitter.setString(settingValue);
                 while (mStringColonSplitter.hasNext()) {

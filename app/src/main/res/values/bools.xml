@@ -1,0 +1,3 @@
+<resources>
+    <bool name="use_accessibility_service">true</bool>
+</resources>
