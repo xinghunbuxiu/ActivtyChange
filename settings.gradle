@@ -1,1 +1,1 @@
-include ':app', ':library:floatwindow'
+include ':app', ':library:floatwindow',':library:JsAccessibilitySdk'

@@ -1,4 +1,4 @@
-package com.demon.activitychange;
+package com.lixh.jsSdk;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -10,54 +10,45 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.lixh.jsSdk.jsevaluator.interfaces.CallJavaEventInterface;
+
 import java.util.List;
 
-public class BaseAccessibilityService extends AccessibilityService {
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK;
 
+/**
+ * Created by LIXH on 2019/3/21.
+ * email lixhVip9@163.com
+ * des
+ */
+public class JsBridge implements CallJavaEventInterface {
+
+    private static volatile JsBridge sInst = null;
     private AccessibilityManager mAccessibilityManager;
     private Context mContext;
-    private static BaseAccessibilityService mInstance;
+    private AccessibilityService service;
 
-    public void init(Context context) {
-        mContext = context.getApplicationContext();
-        mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
-    }
-
-    public static BaseAccessibilityService getInstance() {
-        if (mInstance == null) {
-            mInstance = new BaseAccessibilityService();
-        }
-        return mInstance;
-    }
-
-    /**
-     * Check当前辅助服务是否启用
-     *
-     * @param serviceName serviceName
-     * @return 是否启用
-     */
-    private boolean checkAccessibilityEnabled(String serviceName) {
-        List<AccessibilityServiceInfo> accessibilityServices =
-                mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo info : accessibilityServices) {
-            if (info.getId().equals(serviceName)) {
-                return true;
+    public static JsBridge init(Context context, AccessibilityService service) {
+        JsBridge inst = sInst;
+        if (inst == null) {
+            synchronized (JsBridge.class) {
+                inst = sInst;
+                if (inst == null) {
+                    inst = new JsBridge(context, service);
+                    sInst = inst;
+                }
             }
         }
-        return false;
+        return inst;
     }
 
-    /**
-     * 前往开启辅助服务界面
-     */
-    public void goAccess() {
-        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+    public JsBridge(Context context, AccessibilityService service) {
+        this.service = service;
+        mContext = context.getApplicationContext();
+        mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
     }
 
     /**
@@ -81,13 +72,14 @@ public class BaseAccessibilityService extends AccessibilityService {
     /**
      * 模拟返回操作
      */
+    @Override
     public void performBackClick() {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        performGlobalAction(GLOBAL_ACTION_BACK);
+        service.performGlobalAction(GLOBAL_ACTION_BACK);
     }
 
     /**
@@ -99,7 +91,7 @@ public class BaseAccessibilityService extends AccessibilityService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+        service.performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
     }
 
     /**
@@ -111,7 +103,7 @@ public class BaseAccessibilityService extends AccessibilityService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+        service.performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
     }
 
     /**
@@ -132,7 +124,7 @@ public class BaseAccessibilityService extends AccessibilityService {
      * @return View
      */
     public AccessibilityNodeInfo findViewByText(String text, boolean clickable) {
-        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        AccessibilityNodeInfo accessibilityNodeInfo = service.getRootInActiveWindow();
         if (accessibilityNodeInfo == null) {
             return null;
         }
@@ -155,7 +147,7 @@ public class BaseAccessibilityService extends AccessibilityService {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public AccessibilityNodeInfo findViewByID(String id) {
-        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        AccessibilityNodeInfo accessibilityNodeInfo = service.getRootInActiveWindow();
         if (accessibilityNodeInfo == null) {
             return null;
         }
@@ -170,8 +162,9 @@ public class BaseAccessibilityService extends AccessibilityService {
         return null;
     }
 
+
     public void clickTextViewByText(String text) {
-        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        AccessibilityNodeInfo accessibilityNodeInfo = service.getRootInActiveWindow();
         if (accessibilityNodeInfo == null) {
             return;
         }
@@ -188,7 +181,7 @@ public class BaseAccessibilityService extends AccessibilityService {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void clickTextViewByID(String id) {
-        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        AccessibilityNodeInfo accessibilityNodeInfo = service.getRootInActiveWindow();
         if (accessibilityNodeInfo == null) {
             return;
         }
@@ -215,7 +208,7 @@ public class BaseAccessibilityService extends AccessibilityService {
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("label", text);
             clipboard.setPrimaryClip(clip);
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
@@ -223,11 +216,5 @@ public class BaseAccessibilityService extends AccessibilityService {
         }
     }
 
-    @Override
-    public void onAccessibilityEvent(AccessibilityEvent event) {
-    }
 
-    @Override
-    public void onInterrupt() {
-    }
 }
