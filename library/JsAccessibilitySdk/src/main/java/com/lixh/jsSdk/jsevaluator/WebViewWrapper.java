@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.lixh.jsSdk.jscrawler.CallJavaEventInterface;
 import com.lixh.jsSdk.jsevaluator.interfaces.CallJavaResultInterface;
 import com.lixh.jsSdk.jsevaluator.interfaces.WebViewWrapperInterface;
 
@@ -26,6 +27,7 @@ public class WebViewWrapper implements WebViewWrapperInterface {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDefaultTextEncodingName("utf-8");
         final JavaScriptInterface jsInterface = new JavaScriptInterface(callJavaResult);
+        final CallJavaEventInterface
         mWebView.addJavascriptInterface(jsInterface, JsEvaluator.JS_NAMESPACE);
     }
 

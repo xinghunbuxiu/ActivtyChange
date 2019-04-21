@@ -27,7 +27,7 @@ public class JsCrawler {
         if (singleton == null) {
             synchronized (JsCrawler.class) {
                 if (singleton == null) {
-                    singleton = new JsCrawler(context);
+                    singleton = new JsCrawler (context);
                 }
             }
         }
@@ -37,7 +37,7 @@ public class JsCrawler {
         if (singleton != null) {
             synchronized (JsCrawler.class) {
                 if (singleton != null) {
-                    singleton.getJsEvaluator().destroy();
+                    singleton.getJsEvaluator ( ).destroy ( );
                     singleton = null;
                 }
             }
@@ -50,8 +50,8 @@ public class JsCrawler {
 
     private JsCrawler(@NonNull Context context) {
         mContext = context;
-        mJsEvaluator = new JsEvaluator(context);
-        setRequestEngine(new JsoupEngine());
+        mJsEvaluator = new JsEvaluator (context);
+        setRequestEngine (new JsoupEngine ( ));
     }
 
     public JsEvaluator getJsEvaluator() {
@@ -59,18 +59,22 @@ public class JsCrawler {
     }
 
     public void setRequestEngine(RequestEngine requestEngine) {
-        mJsEvaluator.getWebView().addJavascriptInterface(requestEngine, "RequestEngine");
+        mJsEvaluator.getWebView ( ).addJavascriptInterface (requestEngine, "RequestEngine");
+    }
+
+    public void setEventEngine(AndroidEventEngine eventEngine) {
+        mJsEvaluator.getWebView ( ).addJavascriptInterface (eventEngine, "AndroidEventEngine");
     }
 
     public String loadJs(String name) {
         String jsCode;
         try {
-            final AssetManager am = mContext.getAssets();
-            final InputStream inputStream = am.open(name);
-            jsCode = getFileString(inputStream);
+            final AssetManager am = mContext.getAssets ( );
+            final InputStream inputStream = am.open (name);
+            jsCode = getFileString (inputStream);
             return jsCode;
         } catch (final IOException e) {
-            e.printStackTrace();
+            e.printStackTrace ( );
         }
         return "";
     }
@@ -79,24 +83,24 @@ public class JsCrawler {
     public JsCrawler init(String... names) {
         jsLibCode = "";
         for (String name : names) {
-            jsLibCode += loadJs(name) + ";\u2000";
+            jsLibCode += loadJs (name) + ";\u2000";
         }
         return this;
     }
 
     private String getFileString(InputStream inputStream) {
-        Scanner scanner = new Scanner(inputStream, "UTF-8");
-        return scanner.useDelimiter("\\A").next();
+        Scanner scanner = new Scanner (inputStream, "UTF-8");
+        return scanner.useDelimiter ("\\A").next ( );
     }
 
     public void callFunction(String jsCode, JsCallback resultCallback) {
         jsCode = jsLibCode + ";\u2000" + jsCode;
-        mJsEvaluator.callFunction(jsCode, resultCallback, "", new Object[]{});
+        mJsEvaluator.callFunction (jsCode, resultCallback, "", new Object[]{});
     }
 
     public void callFunction(String jsCode, JsCallback resultCallback, String name, Object... args) {
         jsCode = jsLibCode + ";\u2000" + jsCode;
-        mJsEvaluator.callFunction(jsCode, resultCallback, name, args);
+        mJsEvaluator.callFunction (jsCode, resultCallback, name, args);
     }
 
 
