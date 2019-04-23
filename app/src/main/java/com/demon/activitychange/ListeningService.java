@@ -1,10 +1,20 @@
 package com.demon.activitychange;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.demon.UiTools.GlobalView;
+import com.alibaba.fastjson.JSON;
+import com.demon.activitychange.UiTools.GlobalView;
+import com.demon.activitychange.bean.AccessibilityEventBean;
+import com.demon.activitychange.bean.AppInfo;
+import com.lixh.jsSdk.AccessibilityUtil;
 import com.lixh.jsSdk.base.BaseAccessibilityService;
+import com.lixh.jsSdk.jscrawler.JsCrawler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author DeMon
@@ -13,23 +23,40 @@ import com.lixh.jsSdk.base.BaseAccessibilityService;
  */
 public class ListeningService extends BaseAccessibilityService {
     private static final String TAG = "WindowChange";
-    private String packageName = "com.p2peye.com.remember";
+    Map<String, AppInfo> appInfoMap = new HashMap<>();
 
     @Override
-    public void init(AccessibilityEvent event) {
-        Log.e ("onAccessibilityEvent", "onAccessibilityEvent");
-        switch (event.getEventType ( )) {
-            case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                GlobalView.init (this).showView (event.getPackageName ( ) + "\n" + event.getClassName ( ));
-                break;
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        AppInfo appInfo = (AppInfo) intent.getSerializableExtra("appinfo");
+        if (appInfo != null) {
+            appInfoMap.put(appInfo.getPackageName(), appInfo);
+            JsCrawler.getInstance().loadUrl(appInfo.getLoadUrl());
+            AccessibilityUtil.JumpToOtherApp(this, appInfo.getPackageName(), appInfo.getMainName());
+
         }
+        return super.onStartCommand(intent, flags, startId);
+
+    }
+
+    @Override
+    public void onTypeWindowStateChanged(AccessibilityEvent event) {
+        super.onTypeWindowStateChanged(event);
+        Log.e(TAG,event.getText().toString());
+        GlobalView.init(this).showView(event.getPackageName() + "\n" + event.getClassName());
+        AccessibilityEventBean bean = new AccessibilityEventBean();
+        bean.setPackageName(event.getPackageName());
+        bean.setName(event.getClassName());
+        bean.setText(event.getText());
+        Log.e(TAG, JSON.toJSONString(bean));
+        JsCrawler.getInstance().loadWebViewInterface("onPageChanged", JSON.toJSON(bean));
 
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy ( );
-        GlobalView.init (this).removeView ( );
+        super.onDestroy();
+        GlobalView.init(this).removeView();
     }
+
 }
 

@@ -1,46 +1,64 @@
 package com.demon.activitychange;
 
-import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
-import android.provider.Settings.Secure;
-import android.provider.Settings.SettingNotFoundException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils.SimpleStringSplitter;
-import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.demon.UiTools.GlobalView;
+import com.demon.activitychange.UiTools.GlobalView;
+import com.demon.activitychange.adapter.ViewHolder;
+import com.demon.activitychange.adapter.abslistview.CommonAdapter;
+import com.demon.activitychange.bean.AppInfo;
 import com.lixh.jsSdk.AccessibilityUtil;
+import com.lixh.jsSdk.jscrawler.JsCrawler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private Intent intent;
+    ListView listView;
+    List<AppInfo> appInfoList = new ArrayList<>();
+    CommonAdapter adapter;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boolean isServiceStart = AccessibilityUtil.isAccessibilitySettingsOn(this, ListeningService.class.getCanonicalName());
-        if (isServiceStart) {
+        listView = findViewById(R.id.lv);
+        tv = findViewById(R.id.tv_status);
+        if (isServiceStart()) {
             GlobalView.init(this).showView(getPackageName() + "\n" + getClass().getCanonicalName());
+            tv.setText("服务已开启");
+        } else {
+            tv.setText("服务未开启");
         }
-        findViewById(R.id.start).setOnClickListener(view -> {
-            if (!isServiceStart) {
+        listView.setAdapter(adapter = new CommonAdapter<AppInfo>(this, R.layout.lv_item_app_info, appInfoList) {
+            @Override
+            public void convert(ViewHolder holder, AppInfo appInfo) {
+                TextView projectName = holder.getView(R.id.pro_name);
+                projectName.setText(appInfo.getPackageName());
+            }
+        });
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (!isServiceStart()) {
                 AccessibilityUtil.goAccess(this);
             } else {
+                tv.setText("服务已开启");
                 intent = new Intent(MainActivity.this, ListeningService.class);
+                intent.putExtra("appinfo", appInfoList.get(position));
                 startService(intent);
             }
         });
-
-        findViewById(R.id.stop).setOnClickListener(v -> {
-            if (intent != null) {
-                stopService(intent);
-            }
-        });
+        AppInfo appInfo = new AppInfo();
+        appInfoList.add(appInfo);
+        adapter.notifyDataSetChanged();
     }
 
-
-
+    boolean isServiceStart() {
+        return AccessibilityUtil.isAccessibilitySettingsOn(this, ListeningService.class.getCanonicalName());
+    }
 }

@@ -1,4 +1,4 @@
-package com.demon.UiTools;
+package com.demon.activitychange.UiTools;
 
 import android.content.Context;
 import android.util.Log;

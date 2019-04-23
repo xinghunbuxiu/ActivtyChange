@@ -72,6 +72,11 @@ public class JsEvaluator implements CallJavaResultInterface, JsEvaluatorInterfac
     }
 
     @Override
+    public void loadUrl(String url) {
+        getWebViewWrapper().loadUrl(url);
+    }
+
+    @Override
     public void evaluate(String jsCode, JsCallback resultCallback) {
         final String js = JsEvaluator.getJsForEval(jsCode);
         Log.e("jsload", js);
