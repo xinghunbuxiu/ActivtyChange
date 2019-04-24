@@ -1,6 +1,8 @@
 package com.lixh.jsSdk.base;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.lixh.jsSdk.jscrawler.AndroidEventEngine;
@@ -13,8 +15,7 @@ import com.lixh.jsSdk.jscrawler.JsCrawler;
  * @description
  */
 public abstract class BaseAccessibilityService extends AccessibilityService {
-    AndroidEventEngine bridge;
-    String isLastPage;
+    public AndroidEventEngine bridge;
 
     @Override
     public void onCreate() {
@@ -23,8 +24,10 @@ public abstract class BaseAccessibilityService extends AccessibilityService {
         JsCrawler.getInstance().setEventEngine(bridge);
     }
 
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        Log.e("onAccessibilityEvent",accessibilityEvent.getEventType()+"---"+ accessibilityEvent.getPackageName().toString()+"---"+accessibilityEvent.getClassName());
         switch (accessibilityEvent.getEventType()) {
             case AccessibilityEvent.TYPE_VIEW_CLICKED:
                 onTypeViewClicked(accessibilityEvent);

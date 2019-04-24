@@ -3,7 +3,6 @@ package com.lixh.jsSdk.jscrawler;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
-import android.webkit.WebView;
 
 import com.lixh.jsSdk.jsevaluator.JsEvaluator;
 import com.lixh.jsSdk.jsevaluator.interfaces.JsCallback;

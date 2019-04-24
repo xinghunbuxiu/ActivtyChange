@@ -17,13 +17,14 @@ import com.lixh.jsSdk.base.BaseAccessibilityService;
 import java.util.List;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK;
+import static android.support.v4.view.accessibility.AccessibilityNodeInfoCompat.FOCUS_INPUT;
 
 /**
  * Created by LIXH on 2019/3/21.
  * email lixhVip9@163.com
  * des
  */
-@Keep
+
 public class AndroidEventEngine {
 
 
@@ -31,6 +32,7 @@ public class AndroidEventEngine {
     private static volatile AndroidEventEngine sInst = null;
     private AccessibilityManager mAccessibilityManager;
     private BaseAccessibilityService service;
+
     public static AndroidEventEngine init(BaseAccessibilityService service) {
         AndroidEventEngine inst = sInst;
         if (inst == null) {
@@ -106,6 +108,19 @@ public class AndroidEventEngine {
             e.printStackTrace();
         }
         service.performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+    }
+
+    /**
+     * 模拟上滑操作
+     * @param focusInput
+     */
+    @JavascriptInterface
+    public AccessibilityNodeInfo findFocusView(int focus) {
+        AccessibilityNodeInfo accessibilityNodeInfo = service.getRootInActiveWindow();
+        if (accessibilityNodeInfo == null) {
+            return null;
+        }
+        return accessibilityNodeInfo.findFocus(FOCUS_INPUT);
     }
 
     /**

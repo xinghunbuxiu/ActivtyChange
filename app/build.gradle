@@ -20,6 +20,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            jniDebuggable false
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.config
+        }
         release {
             //混淆
             minifyEnabled true
@@ -31,12 +39,19 @@ android {
             signingConfig signingConfigs.config
             pseudoLocalesEnabled true
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles  'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+}
+subprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(Compile) {
+            options.compilerArgs << "-Xlint:unchecked -Xlint:deprecation"
+        }
     }
 }
 

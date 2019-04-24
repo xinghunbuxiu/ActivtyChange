@@ -1,7 +1,6 @@
 package com.demon.activitychange;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -23,10 +22,11 @@ import java.util.Map;
  */
 public class ListeningService extends BaseAccessibilityService {
     private static final String TAG = "WindowChange";
-    Map<String, AppInfo> appInfoMap = new HashMap<>();
+    Map<CharSequence, AppInfo> appInfoMap = new HashMap<>();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(TAG, "onStartCommand");
         AppInfo appInfo = (AppInfo) intent.getSerializableExtra("appinfo");
         if (appInfo != null) {
             appInfoMap.put(appInfo.getPackageName(), appInfo);
@@ -41,7 +41,6 @@ public class ListeningService extends BaseAccessibilityService {
     @Override
     public void onTypeWindowStateChanged(AccessibilityEvent event) {
         super.onTypeWindowStateChanged(event);
-        Log.e(TAG,event.getText().toString());
         GlobalView.init(this).showView(event.getPackageName() + "\n" + event.getClassName());
         AccessibilityEventBean bean = new AccessibilityEventBean();
         bean.setPackageName(event.getPackageName());
@@ -49,6 +48,9 @@ public class ListeningService extends BaseAccessibilityService {
         bean.setText(event.getText());
         Log.e(TAG, JSON.toJSONString(bean));
         JsCrawler.getInstance().loadWebViewInterface("onPageChanged", JSON.toJSON(bean));
+    }
+
+    private void fixClassName() {
 
     }
 

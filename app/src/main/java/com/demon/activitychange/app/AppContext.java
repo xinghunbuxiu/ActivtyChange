@@ -15,4 +15,9 @@ public class AppContext extends Application {
         super.onCreate();
         JsCrawler.initialize(this);
     }
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        JsCrawler.release();
+    }
 }

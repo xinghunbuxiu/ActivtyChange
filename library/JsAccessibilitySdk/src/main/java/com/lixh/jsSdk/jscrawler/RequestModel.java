@@ -1,11 +1,12 @@
 package com.lixh.jsSdk.jscrawler;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by ykj on 17/7/2.
  */
-public class RequestModel {
+public class RequestModel implements Serializable {
 
     private String url;
     private String method;
