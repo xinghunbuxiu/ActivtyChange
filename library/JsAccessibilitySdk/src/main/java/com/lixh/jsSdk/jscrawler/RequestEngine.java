@@ -1,5 +1,6 @@
 package com.lixh.jsSdk.jscrawler;
 
+import android.support.annotation.Keep;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
@@ -8,6 +9,7 @@ import com.google.gson.Gson;
 /**
  * Created by ykj on 17/6/30.
  */
+@Keep
 public abstract class RequestEngine {
     private static final String TAG = "RequestEngine";
 

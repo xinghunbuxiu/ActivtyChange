@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -22,6 +23,7 @@ import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BA
  * email lixhVip9@163.com
  * des
  */
+@Keep
 public class AndroidEventEngine {
 
 
