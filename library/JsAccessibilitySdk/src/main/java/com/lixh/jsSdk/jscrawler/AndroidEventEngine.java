@@ -1,12 +1,15 @@
 package com.lixh.jsSdk.jscrawler;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -14,7 +17,15 @@ import android.webkit.JavascriptInterface;
 
 import com.lixh.jsSdk.base.BaseAccessibilityService;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK;
 import static android.support.v4.view.accessibility.AccessibilityNodeInfoCompat.FOCUS_INPUT;
@@ -111,8 +122,9 @@ public class AndroidEventEngine {
     }
 
     /**
-     * 模拟上滑操作
-     * @param focusInput
+     * 获取当前有焦点的视图
+     *
+     * @param focus
      */
     @JavascriptInterface
     public AccessibilityNodeInfo findFocusView(int focus) {
@@ -196,6 +208,7 @@ public class AndroidEventEngine {
         if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
             for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
                 if (nodeInfo != null) {
+                    printLog("bbb"+nodeInfo.toString());
                     return nodeInfo;
                 }
             }
@@ -242,6 +255,32 @@ public class AndroidEventEngine {
         }
     }
 
+
+    /**
+     * 执行shell命令
+     *
+     * @param cmd
+     */
+    @JavascriptInterface
+    public String adbShell(String cmd) {
+        Runtime mRuntime = Runtime.getRuntime();
+        StringBuffer mRespBuff = new StringBuffer();
+        try {
+            //Process中封装了返回的结果和执行错误的结果
+            Process mProcess = mRuntime.exec(cmd);
+            BufferedReader mReader = new BufferedReader(new InputStreamReader(mProcess.getInputStream()));
+            char[] buff = new char[1024];
+            int ch = 0;
+            while ((ch = mReader.read(buff)) != -1) {
+                mRespBuff.append(buff, 0, ch);
+            }
+            mReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mRespBuff.toString();
+    }
+
     /**
      * 模拟输入
      *
@@ -250,6 +289,9 @@ public class AndroidEventEngine {
      */
     @JavascriptInterface
     public void inputText(AccessibilityNodeInfo nodeInfo, String text) {
+        if (nodeInfo == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bundle arguments = new Bundle();
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
@@ -263,6 +305,11 @@ public class AndroidEventEngine {
         }
     }
 
+    @JavascriptInterface
+    public boolean equals(AccessibilityNodeInfo nodeInfo, String text) {
+        Log.e("aaaa",nodeInfo.getText().toString() + "----" + text);
+        return nodeInfo.getText().toString().equals(text);
+    }
 
     @JavascriptInterface
     public void printLog(String msg) {

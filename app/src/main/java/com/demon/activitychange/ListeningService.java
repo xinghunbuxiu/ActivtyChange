@@ -50,10 +50,6 @@ public class ListeningService extends BaseAccessibilityService {
         JsCrawler.getInstance().loadWebViewInterface("onPageChanged", JSON.toJSON(bean));
     }
 
-    private void fixClassName() {
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

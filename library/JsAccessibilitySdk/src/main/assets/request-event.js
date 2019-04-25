@@ -7,28 +7,28 @@ EventBuilder.prototype = {
 	 *
 	 * @param nodeInfo nodeInfo
 	 */
-	performViewClick:function(nodeInfo) {
+	performViewClick: function (nodeInfo) {
 		AndroidEventEngine.performViewClick(nodeInfo);
 	},
 
 	/*
 	 * 模拟点击事件by 文本
 	 */
-	clickTextViewByText:function(text) {
+	clickTextViewByText: function (text) {
 		AndroidEventEngine.clickTextViewByText(text);
 	},
 
 	/*
 	 * 模拟点击事件by id
 	 */
-	clickTextViewByID:function(id) {
+	clickTextViewByID: function (id) {
 		AndroidEventEngine.clickTextViewByID(id);
 	},
 
 	/*
 	 * 模拟返回操作
 	 */
-	performBackClick:function() {
+	performBackClick: function () {
 		AndroidEventEngine.performBackClick();
 
 	},
@@ -36,14 +36,14 @@ EventBuilder.prototype = {
 	/*
 	 * 模拟下滑操作
 	 */
-	performScrollBackward:function() {
+	performScrollBackward: function () {
 		AndroidEventEngine.performScrollBackward();
 	},
 
 	/*
 	 * 模拟上滑操作
 	 */
-	performScrollForward:function() {
+	performScrollForward: function () {
 		AndroidEventEngine.performScrollForward();
 	},
 
@@ -53,7 +53,7 @@ EventBuilder.prototype = {
 	 * @param text text
 	 * @return AccessibilityNodeInfo
 	 */
-	findViewByText:function(text) {
+	findViewByText: function (text) {
 		var nodeInfo = AndroidEventEngine.findViewByText(text);
 		return nodeInfo;
 	},
@@ -65,7 +65,7 @@ EventBuilder.prototype = {
 	 * @param clickable 该View是否可以点击
 	 * @return AccessibilityNodeInfo
 	 */
-	findViewByText:function(text, clickable) {
+	findViewByText: function (text, clickable) {
 		var nodeInfo = AndroidEventEngine.findViewByText(text, clickable);
 		return nodeInfo;
 	},
@@ -76,7 +76,7 @@ EventBuilder.prototype = {
 	 * @param id id
 	 * @return AccessibilityNodeInfo
 	 */
-	findViewByID:function(id) {
+	findViewByID: function (id) {
 		var nodeInfo = AndroidEventEngine.findViewByID(id);
 		return nodeInfo;
 	},
@@ -87,8 +87,8 @@ EventBuilder.prototype = {
 	 * @param id id
 	 * @return AccessibilityNodeInfo
 	 */
-	findViewByNodeIndex:function(id,index) {
-		var nodeInfo = AndroidEventEngine.findViewByNodeIndex(id,index);
+	findViewByNodeIndex: function (id, index) {
+		var nodeInfo = AndroidEventEngine.findViewByNodeIndex(id, index);
 		return nodeInfo;
 	},
 	/*
@@ -97,13 +97,28 @@ EventBuilder.prototype = {
 	 * @param  {[type]} text     [description]
 	 * @return {[type]}          [description]
 	 */
-	inputText:function(nodeInfo, text) {
-		AndroidEventEngine.inputText(nodeInfo,text);
+	inputText: function (nodeInfo, text) {
+		AndroidEventEngine.inputText(nodeInfo, text);
+	},
+	/*获取有焦点的node*/
+	findFocusView: function (focus) {
+		var nodeInfo = AndroidEventEngine.findFocusView(focus);
+		return nodeInfo;
+	},
+	/*比较节点里的文字*/
+	equals: function (nodeInfo, text) {
+		var nodeInfo = AndroidEventEngine.equals(nodeInfo,text);
+		return nodeInfo;
+	},
+	/*调用adb命令*/
+	adbShell: function (shell) {
+		var result = AndroidEventEngine.adbShell(shell);
+		return result;
 	},
 	/*
 	日志输出
-	*/
-	log:function(msg){
-	    AndroidEventEngine.printLog(msg);
+	 */
+	log: function (msg) {
+		AndroidEventEngine.printLog(msg);
 	}
 }

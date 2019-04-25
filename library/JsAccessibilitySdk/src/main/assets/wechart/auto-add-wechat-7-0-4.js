@@ -12,25 +12,32 @@ function sleep(milliSeconds) {
 //页面切换
 function onPageChanged(event) {
 	var name = event.name;
-	request.log(name);
-	if (isEnd) {
-		return;
-	}
+	request.log(name + '----' + isEnd);
 	if (lastPage != null && lastPage != name) {
 		request.performBackClick();
 		return;
 	}
 	lastPage = null;
 	if (name == "com.tencent.mm.ui.LauncherUI") {
+		request.log('onLauncherUi');
 		onLauncherUi();
 	} else if (name == "com.tencent.mm.plugin.fts.ui.FTSMainUI") {
+		request.log('FTSMainUI');
 		FTSMainUI();
 	} else if (name == "com.tencent.mm.ui.widget.a.c") {
+		request.log('addError');
 		addError(event);
 	} else if (name == "com.tencent.mm.plugin.profile.ui.ContactInfoUI") {
+		request.log('onContactInfoUI');
 		onContactInfoUI();
 	} else if (name == "com.tencent.mm.plugin.profile.ui.SayHiWithSnsPermissionUI") {
+		request.log('SayHiWithSnsPermissionUI');
 		SayHiWithSnsPermissionUI();
+	} else {
+		var node = request.findViewByID("com.tencent.mm:id/l3");
+		if (node != null && request.equals(node, "搜索")) {
+			FTSMainUI();
+		}
 	}
 }
 
@@ -44,9 +51,12 @@ function addError(event) {
 
 //首页 点击搜索
 function onLauncherUi() {
+	if (isEnd) {
+		return;
+	}
 	sleep(500);
 	request.log('点击搜索');
-	tempIndex=-1;
+	tempIndex = -1;
 	var node = request.findViewByNodeIndex("com.tencent.mm:id/k1", 1);
 	request.performViewClick(node)
 }
@@ -58,6 +68,7 @@ function FTSMainUI() {
 		add_friend(names[tempIndex]);
 	} else {
 		isEnd = true;
+		tempIndex = -1;
 		request.log('全部处理完毕');
 	}
 }
@@ -65,6 +76,10 @@ function FTSMainUI() {
 function add_friend(name) {
 	request.log('开始添加' + name);
 	var node = request.findViewByID("com.tencent.mm:id/l3");
+	if(node==null){
+		request.log('null---------------------------------------->' + name);
+		return
+	}
 	request.log('开输入---------------------------------------->' + name);
 	request.inputText(node, name);
 	sleep(500);

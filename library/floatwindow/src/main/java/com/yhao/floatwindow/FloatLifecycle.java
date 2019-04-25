@@ -19,7 +19,7 @@ import android.widget.Toast;
  * 3.resumeCount计时，针对一些只执行onPause不执行onStop的奇葩情况
  */
 
-class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLifecycleCallbacks {
+class FloatLifecycle extends BroadcastReceiver {
 
     private static final String SYSTEM_DIALOG_REASON_KEY = "reason";
     private static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
@@ -27,22 +27,17 @@ class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLi
     private Handler mHandler;
     private Class[] activities;
     private boolean showFlag;
-    private int startCount;
-    private int resumeCount;
     private boolean appBackground;
-    private LifecycleListener mLifecycleListener;
     private static ResumedListener sResumedListener;
     private static int num = 0;
     Context mContext;
 
-    FloatLifecycle(Context applicationContext, boolean showFlag, Class[] activities, LifecycleListener lifecycleListener) {
+    FloatLifecycle(Context applicationContext, boolean showFlag, Class[] activities) {
         this.showFlag = showFlag;
         this.activities = activities;
         this.mContext = applicationContext;
         num++;
-        mLifecycleListener = lifecycleListener;
         mHandler = new Handler();
-        ((Application) applicationContext.getApplicationContext()).registerActivityLifecycleCallbacks(this);
         applicationContext.registerReceiver(this, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
@@ -64,77 +59,13 @@ class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLi
 
 
     @Override
-    public void onActivityResumed(Activity activity) {
-        if (sResumedListener != null) {
-            num--;
-            if (num == 0) {
-                sResumedListener.onResumed();
-                sResumedListener = null;
-            }
-        }
-        resumeCount++;
-
-        if (appBackground) {
-            appBackground = false;
-        }
-    }
-
-    @Override
-    public void onActivityPaused(final Activity activity) {
-        resumeCount--;
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (resumeCount == 0) {
-                    appBackground = true;
-                    mLifecycleListener.onBackToDesktop();
-                }
-            }
-        }, delay);
-
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
-        startCount++;
-    }
-
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-        startCount--;
-        if (startCount == 0) {
-            mLifecycleListener.onBackToDesktop();
-        }
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (action != null && action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
             String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
             if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
-                mLifecycleListener.onBackToDesktop();
             }
         }
     }
-
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-    }
-
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        mContext.unregisterReceiver(this);
-    }
-
 
 }

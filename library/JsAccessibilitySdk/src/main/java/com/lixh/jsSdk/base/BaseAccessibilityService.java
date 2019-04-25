@@ -27,7 +27,7 @@ public abstract class BaseAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.e("onAccessibilityEvent",accessibilityEvent.getEventType()+"---"+ accessibilityEvent.getPackageName().toString()+"---"+accessibilityEvent.getClassName());
+        Log.e("onAccessibilityEvent", accessibilityEvent.getEventType() + "---" + accessibilityEvent.getPackageName().toString() + "---" + accessibilityEvent.getClassName());
         switch (accessibilityEvent.getEventType()) {
             case AccessibilityEvent.TYPE_VIEW_CLICKED:
                 onTypeViewClicked(accessibilityEvent);
