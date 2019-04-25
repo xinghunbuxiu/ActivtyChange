@@ -20,9 +20,15 @@ function onPageChanged(event) {
 	lastPage = null;
 	if (name == "com.tencent.mm.ui.LauncherUI") {
 		request.log('onLauncherUi');
+		if (isEnd) {
+			return;
+		}
 		onLauncherUi();
 	} else if (name == "com.tencent.mm.plugin.fts.ui.FTSMainUI") {
 		request.log('FTSMainUI');
+		if (isEnd) {
+			return;
+		}
 		FTSMainUI();
 	} else if (name == "com.tencent.mm.ui.widget.a.c") {
 		request.log('addError');
@@ -51,9 +57,6 @@ function addError(event) {
 
 //首页 点击搜索
 function onLauncherUi() {
-	if (isEnd) {
-		return;
-	}
 	sleep(500);
 	request.log('点击搜索');
 	tempIndex = -1;
@@ -76,11 +79,12 @@ function FTSMainUI() {
 function add_friend(name) {
 	request.log('开始添加' + name);
 	var node = request.findViewByID("com.tencent.mm:id/l3");
-	if(node==null){
+	if (node == null) {
 		request.log('null---------------------------------------->' + name);
 		return
 	}
 	request.log('开输入---------------------------------------->' + name);
+	sleep(500);
 	request.inputText(node, name);
 	sleep(500);
 	request.log('点击添加---------------------------------------->');
