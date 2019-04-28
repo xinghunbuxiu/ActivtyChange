@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  没有滚动的listView 样式 -->
+
+    <style name="noscrolllistview_style" parent="@style/MatchWrap">
+        <item name="android:divider">@color/color_view_line</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:background">@color/color_sys_bg</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+    -<!--  分割线的style-->
+    <style name="color_view_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_view_line</item>
+    </style>
+
+    <style name="Widget.MaterialProgressBar.ProgressBar.Horizontal" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateDrawable">@null</item>
+        <item name="android:minHeight">4dp</item>
+        <item name="android:maxHeight">4dp</item>
+    </style>
+</resources>
