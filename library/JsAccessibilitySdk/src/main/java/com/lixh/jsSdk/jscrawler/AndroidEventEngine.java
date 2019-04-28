@@ -10,20 +10,28 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 import com.lixh.jsSdk.base.BaseAccessibilityService;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -208,7 +216,7 @@ public class AndroidEventEngine {
         if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
             for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
                 if (nodeInfo != null) {
-                    printLog("bbb"+nodeInfo.toString());
+                    printLog("bbb" + nodeInfo.toString());
                     return nodeInfo;
                 }
             }
@@ -233,6 +241,83 @@ public class AndroidEventEngine {
                 }
             }
         }
+    }
+
+    /**
+     * @return 二进制流
+     */
+    @JavascriptInterface
+    public byte[] loadByte(String filePath) throws IOException {
+        if (isExistsSdcard()) {// 判断SDcard是否存在
+            File direstory = new File(filePath);
+            if (direstory.exists()) {
+                FileInputStream fileInputStream = new FileInputStream(direstory);
+                ByteBuffer buffer = ByteBuffer.allocate(fileInputStream
+                        .available());
+                byte[] b = new byte[1024];
+                int size = -1;
+                while ((size = fileInputStream.read(b)) != -1) {
+                    buffer.put(b, 0, size);
+                }
+                return buffer.array();
+            }
+        }
+        return null;
+    }
+    /*
+     * 将byte数组转换为字符串
+     */
+
+    @JavascriptInterface
+    public String byteToString(byte[] byteArray) {
+        String value = new String(byteArray);
+        return value;
+    }
+
+    /**
+     * @param filePath
+     * @param index
+     * @return 每行的文字
+     */
+    @JavascriptInterface
+    public String readLine(String filePath, int index) {
+        LinkedList<String> strings = new LinkedList<>();
+        if (!strings.isEmpty()) {
+            String line = index >= strings.size() ? strings.getLast() : strings.get(index);
+            return line;
+        }
+        File file = new File(filePath);
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            while (line != null) {
+                strings.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return index >= strings.size() ? strings.getLast() : strings.get(index);
+        }
+
+    }
+
+    /**
+     * 是否存在SDcard
+     *
+     * @return
+     */
+    public boolean isExistsSdcard() {
+        return Environment.MEDIA_MOUNTED.equals(Environment
+                .getExternalStorageState());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -307,7 +392,7 @@ public class AndroidEventEngine {
 
     @JavascriptInterface
     public boolean equals(AccessibilityNodeInfo nodeInfo, String text) {
-        Log.e("aaaa",nodeInfo.getText().toString() + "----" + text);
+        Log.e("aaaa", nodeInfo.getText().toString() + "----" + text);
         return nodeInfo.getText().toString().equals(text);
     }
 

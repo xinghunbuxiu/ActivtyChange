@@ -17,8 +17,21 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        mavenLocal()
+        maven { url 'http://central.maven.org/maven2/' }
+        maven { url 'https://maven.google.com' }
         jcenter()
+        mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        maven {
+            url 'https://dl.bintray.com/hpdx/maven/'
+        }
     }
 }
 

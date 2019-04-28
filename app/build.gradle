@@ -10,11 +10,11 @@ android {
             v2SigningEnabled false
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion versions.compileSdkVersion
     defaultConfig {
         applicationId "com.demon.activitychange"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -39,27 +39,35 @@ android {
             signingConfig signingConfigs.config
             pseudoLocalesEnabled true
             zipAlignEnabled true
-            proguardFiles  'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
-}
-subprojects {
-    gradle.projectsEvaluated {
-        tasks.withType(Compile) {
-            options.compilerArgs << "-Xlint:unchecked -Xlint:deprecation"
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+    }
+
+    subprojects {
+        gradle.projectsEvaluated {
+            tasks.withType(Compile) {
+                options.compilerArgs << "-Xlint:unchecked -Xlint:deprecation"
+            }
         }
     }
-}
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':library:floatwindow')
-    implementation project(':library:JsAccessibilitySdk')
-
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation project(':library:floatwindow')
+        implementation project(':library:JsAccessibilitySdk')
+        api project(':library:common')
+        implementation rootProject.ext.dependencies.appcompatV7
+        implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    }
 }

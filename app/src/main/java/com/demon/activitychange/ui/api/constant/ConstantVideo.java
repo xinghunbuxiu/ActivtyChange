@@ -1,0 +1,171 @@
+package com.demon.activitychange.ui.api.constant;
+
+
+
+public class ConstantVideo {
+
+    String video = "{" +
+            "acfun.tv"+
+            "61.com" +
+            "funshion.com" +
+            "wasu.cn" +
+            "kumi.cn" +
+            "163.com" +
+            "56.com" +
+            "m1905.com" +
+            "pps.tv" +
+            "pptv.com" +
+            "cntv.cn" +
+            "ifeng.com" +
+            "joy.cn" +
+            "ku6.com" +
+            "letv.com" +
+            "iqiyi.com" +
+            "qq.com" +
+            "sina.com.cn" +
+            "sohux.com" +
+            "sohu.com" +
+            "tudou.com" +
+            "kankan.com" +
+            "yinyuetai.com" +
+            "yingyin.com" +
+            "ugc.com" +
+            "viki.com" +
+            "douban.com" +
+            "zuidianying.5i.tv" +
+            "hunantv.com" +
+            "fun.tv" +
+            "mtime.com" +
+            "baofeng.com" +
+            "app.video.baidu.com" +
+            "xinlan.com" +
+            "cztv.com" +
+            "1905.com" +
+            "brtn.cn" +
+            "nen.com.cn" +
+            "youku.com" +
+            "yy6080.org" +
+            "aipai.com" +
+            "baomihua.com" +
+            "kankannews.com" +
+            "yunshipin.com" +
+            "tangdou.com" +
+            "wasuvip.cn" +
+            "bestv.com.cn" +
+            "hunanviptv.com" +
+            "letvx.com" +
+            "xiankan.com" +
+            "le.com" +
+            "utovr.com" +
+            "hotcast.cn" +
+            "mgtv.com" +
+            "mgtvapp.com" +
+            "cctv.com" +
+            "xdnat.com" +
+            "wangluo1.com" +
+            "wangluo2.com" +
+            "bilibili.com" +
+            "my.tv.sohu.com" +
+            "paopaoys.com" +
+            "yehetang.com" +
+            "tuxinmoney.com" +
+            "meijub.com" +
+            "kkkkba.com" +
+            "qiqibu.com" +
+            "migu.cn" +
+            "sudujq.com" +
+            "djhuo.com" +
+            "17pu.net" +
+            "mitehao.com" +
+            "djhuo1.com" +
+            "goudaitv.com" +
+            "wuxiaoxi.cn" +
+            "tellworld.cc" +
+            "acfun.cn" +
+            "lelevod.com" +
+            "zaizai8.com" +
+            "pianha.com" +
+            "halihali.tv" +
+            "ckck.tv" +
+            "7nmg.com" +
+            "myei.cc" +
+            "videolive.tv" +
+            "lovedy.net" +
+            "haojilu.com" +
+            "2hanju.com" +
+            "baishi.baidu.com" +
+            "cgfdjz.com" +
+            "82ke.com" +
+            "xiaohutv.com" +
+            "rrmj.tv" +
+            "hbtv.com.cn" +
+            "wangpan.com" +
+            "vcinema.cn" +
+            "lookmp4.com" +
+            "e8yy.com" +
+            "zhibotai.com" +
+            "rr.tv" +
+            "yse360.cc" +
+            "yingshimp.com" +
+            "79hd.com" +
+            "qiqibu8.com" +
+            "y3600.com" +
+            "hanju.cc" +
+            "iqi5.com" +
+            "97hanju.com" +
+            "tongbuyy.com" +
+            "haokan666.com" +
+            "dy4410.com" +
+            "gqyyy.com" +
+            "miaopai.com" +
+            "73ck.com"+
+            "wb199.com" +
+            "ttwanda.com" +
+            "91simi.com" +
+            "yse123.com" +
+            "youfeifan.cn"+
+            "haokan7.com" +
+            "miguvideo.cn" +
+            "haokan77.com" +
+            "byjsj.cn" +
+            "pptvvip.com" +
+            "miguvideovip.com" +
+            "1905vip.com" +
+            "letvvip.com" +
+            "vcinemavip.cn" +
+            "sofamovie.cn" +
+            "sohuapp.com" +
+            "360yuejiao.com" +
+            "xigua110.com" +
+            "yingshiha.com" +
+            "list.video.baidu.com" +
+            "list.xiaodutv.com," +
+            "77kp.com" +
+            "meijutvxt.com" +
+            "mmyyds.com" +
+            "yingshifantv.com"+
+            "h5link.xiaodutv.com"+
+            "aassx.com" +
+            "jadianying.com" +
+            "94a1.com" +
+            "bbfuli5.com" +
+            "yelang8.com" +
+            "iqiyiweb.com" +
+            "iqiyivip.com" +
+            "damocourtyard.cn" +
+            "haiwai.tv" +
+            "vbuluo.com" +
+            "wyjc123.com" +
+            "youlady.cc" +
+            "ys-we.com" +
+            "dushudang.com" +
+            "52088.cc" +
+            "imahua.tv" +
+            "pan.baidu.com" +
+            "tv189.com" +
+            "jiaqizhuan.cc" +
+            "hlyy.cc" +
+            "}";
+
+
+}

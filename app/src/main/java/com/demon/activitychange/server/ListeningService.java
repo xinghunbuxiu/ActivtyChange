@@ -1,4 +1,4 @@
-package com.demon.activitychange;
+package com.demon.activitychange.server;
 
 import android.content.Intent;
 import android.util.Log;

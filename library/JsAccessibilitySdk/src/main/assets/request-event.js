@@ -115,6 +115,21 @@ EventBuilder.prototype = {
 		var result = AndroidEventEngine.adbShell(shell);
 		return result;
 	},
+	/*读取文件txt*/
+	loadByte: function (path) {
+		var result = AndroidEventEngine.loadByte(path);
+		return result;
+	},
+	/*byte 转 String*/
+	byteToString: function (byte) {
+		var result = AndroidEventEngine.byteToString(byte);
+		return result;
+	},
+	/*读取文件每行*/
+	readLine: function (path,index) {
+		var result = AndroidEventEngine.readLine(path,index);
+		return result;
+	},
 	/*
 	日志输出
 	 */

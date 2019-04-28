@@ -1,7 +1,7 @@
-var names = new Array('15155404564', 'm20nbn12ft22', '15643984356')
-	var request = new EventBuilder()
-	var tempIndex = -1;
-var sendText = '叫我哥哥';
+var name = getNames();
+var sendText = getSendText();
+var request = new EventBuilder();
+var tempIndex = -1;
 var lastPage;
 var isEnd = false;
 //睡眠
@@ -116,3 +116,4 @@ function SayHiWithSnsPermissionUI() {
 	lastPage = "com.tencent.mm.plugin.fts.ui.FTSMainUI";
 	request.performBackClick();
 }
+function readTxt(text) {}
