@@ -13,6 +13,8 @@ import com.demon.activitychange.adapter.abslistview.CommonAdapter;
 import com.demon.activitychange.bean.AppInfo;
 import com.demon.activitychange.server.ListeningService;
 import com.lixh.jsSdk.AccessibilityUtil;
+import com.lixh.jsSdk.ZipUtils;
+import com.lixh.utils.UFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +48,16 @@ public class MainActivity extends AppCompatActivity {
 
         });
         begin.setOnClickListener((v) -> {
-            if (!isServiceStart()) {
-                AccessibilityUtil.goAccess(this);
-            } else {
-                tv.setText("服务已开启");
-                intent = new Intent(MainActivity.this, ListeningService.class);
-                intent.putExtra("appinfo", appInfo);
-                startService(intent);
-            }
+            String file = "file:///android_asset/wechart.zip";
+            ZipUtils.Unzip(file,UFile.getCacheDir());
+//            if (!isServiceStart()) {
+//                AccessibilityUtil.goAccess(this);
+//            } else {
+//                tv.setText("服务已开启");
+//                intent = new Intent(MainActivity.this, ListeningService.class);
+//                intent.putExtra("appinfo", appInfo);
+//                startService(intent);
+//            }
         });
     }
 

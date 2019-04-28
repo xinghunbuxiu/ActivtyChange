@@ -19,7 +19,7 @@ public class JsCrawler {
     private static JsCrawler singleton;
     public static final String REQUEST_MODEL = "request-model.js";
     public static final String JQUERY = "jquery-3.2.1.min.js";
-    public static final String REQUEST_EVENT = "request-event.js";
+    public static final String REQUEST_EVENT = "wechart/request-event.js";
     private Context mContext;
     private JsEvaluator mJsEvaluator;
     private String jsLibCode = "";

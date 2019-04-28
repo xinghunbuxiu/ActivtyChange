@@ -13,7 +13,7 @@ public class AppInfo implements Serializable {
     //首页启动
     String mainName="com.tencent.mm.ui.LauncherUI";
     //加载的url
-    String loadUrl = "file:///android_asset/wechart/auto-add-wechart.html";
+    String loadUrl = "file:///android_asset/wechart/index.html";
 
     public String getPackageName() {
         return this.packageName;
