@@ -67,6 +67,7 @@ public class UFile {
 
     /**
      * 获取文件名
+     *
      * @param fileName
      * @return
      */
@@ -84,6 +85,7 @@ public class UFile {
 
     /**
      * 根据uri获取文件路径
+     *
      * @param context
      * @param uri
      * @return
@@ -116,6 +118,7 @@ public class UFile {
 
     /**
      * 根据uri获取真文件路径
+     *
      * @param context
      * @param contentUri
      * @return
@@ -195,15 +198,13 @@ public class UFile {
      */
     public static File getDir() {
         String packName = BaseApplication.getAppContext().getPackageName();
-        String name = packName.substring(packName.lastIndexOf(".") + 1,
-                packName.length());
         File dir = null;
         if ((!Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED))) {
             dir = BaseApplication.getAppContext().getCacheDir();
         } else {
             dir = new File(Environment.getExternalStorageDirectory()
-                    .getAbsolutePath() + "/" + name);
+                    .getAbsolutePath() + "/" + packName);
         }
         dir.mkdirs();
         return dir;

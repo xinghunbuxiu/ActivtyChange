@@ -3,6 +3,7 @@ package com.demon.activitychange.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
     EditText filepath;
     Button begin;
+    Button select;
     TextView tv;
 
     @Override
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         filepath = findViewById(R.id.filePath);
         begin = findViewById(R.id.begin);
         tv = findViewById(R.id.tv_status);
+        select = findViewById(R.id.bt_select_file);
         AppInfo appInfo = new AppInfo();
 
         if (isServiceStart()) {
@@ -40,14 +43,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tv.setText("服务未开启");
         }
+        select.setOnClickListener(v -> {
+            String file = "wechart.zip";
+            String saveFile = UFile.getCacheDir();
+            filepath.setText(saveFile);
+            try {
+                InputStream inputStream = getAssets().open(file);
+                ZipUtils.Unzip(inputStream, saveFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         begin.setOnClickListener((v) -> {
-//            String file = "wechart.zip";
-//            try {
-//                InputStream inputStream = getAssets().open(file);
-//                ZipUtils.Unzip(inputStream, UFile.getCacheDir());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             if (!isServiceStart()) {
                 AccessibilityUtil.goAccess(this);
             } else {
