@@ -10,6 +10,7 @@ ext {
     dependencies = [
             constraintLayout: 'com.android.support.constraint:constraint-layout:1.1.2',
             appcompatV7     : "com.android.support:appcompat-v7:${supportLibrary}",
+            appcompatV4     : "com.android.support:support-v4:${supportLibrary}",
             design          : "com.android.support:design:${supportLibrary}",
             recycle         : "com.android.support:recyclerview-v7:${supportLibrary}",
             annotations     : "com.android.support:support-annotations:${supportLibrary}",

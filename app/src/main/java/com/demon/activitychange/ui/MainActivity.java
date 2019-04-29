@@ -9,24 +9,20 @@ import android.widget.TextView;
 
 import com.demon.activitychange.R;
 import com.demon.activitychange.UiTools.GlobalView;
-import com.demon.activitychange.adapter.abslistview.CommonAdapter;
 import com.demon.activitychange.bean.AppInfo;
 import com.demon.activitychange.server.ListeningService;
 import com.lixh.jsSdk.AccessibilityUtil;
 import com.lixh.jsSdk.ZipUtils;
 import com.lixh.utils.UFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private Intent intent;
     EditText filepath;
     Button begin;
-    Button selectFile;
-    List<AppInfo> appInfoList = new ArrayList<>();
-    CommonAdapter adapter;
     TextView tv;
 
     @Override
@@ -44,20 +40,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tv.setText("服务未开启");
         }
-        selectFile.setOnClickListener(v -> {
-
-        });
         begin.setOnClickListener((v) -> {
-            String file = "file:///android_asset/wechart.zip";
-            ZipUtils.Unzip(file,UFile.getCacheDir());
-//            if (!isServiceStart()) {
-//                AccessibilityUtil.goAccess(this);
-//            } else {
-//                tv.setText("服务已开启");
-//                intent = new Intent(MainActivity.this, ListeningService.class);
-//                intent.putExtra("appinfo", appInfo);
-//                startService(intent);
+//            String file = "wechart.zip";
+//            try {
+//                InputStream inputStream = getAssets().open(file);
+//                ZipUtils.Unzip(inputStream, UFile.getCacheDir());
+//            } catch (IOException e) {
+//                e.printStackTrace();
 //            }
+            if (!isServiceStart()) {
+                AccessibilityUtil.goAccess(this);
+            } else {
+                tv.setText("服务已开启");
+                intent = new Intent(MainActivity.this, ListeningService.class);
+                intent.putExtra("appinfo", appInfo);
+                startService(intent);
+            }
         });
     }
 

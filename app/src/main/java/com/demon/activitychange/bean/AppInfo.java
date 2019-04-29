@@ -13,7 +13,8 @@ public class AppInfo implements Serializable {
     //首页启动
     String mainName="com.tencent.mm.ui.LauncherUI";
     //加载的url
-    String loadUrl = "file:///android_asset/wechart/index.html";
+    String loadUrl = "wechart/index.html";
+    String scriptPath = "index.html";
 
     public String getPackageName() {
         return this.packageName;
@@ -37,5 +38,13 @@ public class AppInfo implements Serializable {
 
     public void setLoadUrl(String loadUrl) {
         this.loadUrl = loadUrl;
+    }
+
+    public String getScriptPath() {
+        return this.scriptPath;
+    }
+
+    public void setScriptPath(String scriptPath) {
+        this.scriptPath = scriptPath;
     }
 }

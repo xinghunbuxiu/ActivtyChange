@@ -11,7 +11,9 @@ import com.demon.activitychange.bean.AppInfo;
 import com.lixh.jsSdk.AccessibilityUtil;
 import com.lixh.jsSdk.base.BaseAccessibilityService;
 import com.lixh.jsSdk.jscrawler.JsCrawler;
+import com.lixh.utils.UFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +32,9 @@ public class ListeningService extends BaseAccessibilityService {
         AppInfo appInfo = (AppInfo) intent.getSerializableExtra("appinfo");
         if (appInfo != null) {
             appInfoMap.put(appInfo.getPackageName(), appInfo);
-            JsCrawler.getInstance().loadUrl(appInfo.getLoadUrl());
+            String path = "file:///" + UFile.getCacheDir() + "/" + appInfo.getLoadUrl();
+            JsCrawler.getInstance().loadUrl(path);
             AccessibilityUtil.JumpToOtherApp(this, appInfo.getPackageName(), appInfo.getMainName());
-
         }
         return super.onStartCommand(intent, flags, startId);
 
