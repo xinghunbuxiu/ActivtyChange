@@ -3,3 +3,6 @@
 /local.properties
 /.idea/
 library/JsAccessibilitySdk/build/
+library/common/build/
+library/bottom-navigation/build/
+library/floatwindow/build/
