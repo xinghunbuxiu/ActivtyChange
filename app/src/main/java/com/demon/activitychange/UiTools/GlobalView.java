@@ -1,7 +1,6 @@
 package com.demon.activitychange.UiTools;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,7 +43,6 @@ public class GlobalView {
     }
 
     public void showView(String s) {
-        Log.e("service", s);
         ((TextView) mView.findViewById(R.id.historyWindowName)).setText(s);
         FloatWindow.get().show();
     }

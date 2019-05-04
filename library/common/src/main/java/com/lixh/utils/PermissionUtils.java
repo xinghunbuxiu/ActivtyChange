@@ -40,8 +40,8 @@ public class PermissionUtils {
 
     public static void requestPermission(Context context, final RequestPermission requestPermission, String... strArr) {
         AndPermission.with(context).runtime().permission(strArr)
-                .onGranted(data -> requestPermission.onRequestPermissionFailure(data))
-                .onDenied(data -> requestPermission.onRequestPermissionSuccess())
+                .onGranted(data -> requestPermission.onRequestPermissionSuccess())
+                .onDenied(data -> requestPermission.onRequestPermissionFailure(data))
                 .start();
     }
 
