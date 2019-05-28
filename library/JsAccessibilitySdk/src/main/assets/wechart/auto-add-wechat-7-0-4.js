@@ -6,13 +6,19 @@ var lastPage;
 var isEnd = false;
 //睡眠
 function sleep(milliSeconds) {
+	milliSeconds = 1000;
 	var startTime = new Date().getTime();
 	while (new Date().getTime() < startTime + milliSeconds);
 };
 //页面切换
 function onPageChanged(event) {
 	var name = event.name;
-	request.log(name + '----' + isEnd);
+	request.log('lastPage' + '----' + lastPage);
+	request.log('name' + '----' + name + '---' + isEnd);
+	request.log('lastPage' + '----' + lastPage != name);
+	if (name == 'com.tencent.mm.ui.base.p') {
+		return;
+	}
 	if (lastPage != null && lastPage != name) {
 		request.performBackClick();
 		return;
@@ -42,6 +48,9 @@ function onPageChanged(event) {
 	} else {
 		var node = request.findViewByID("com.tencent.mm:id/l3");
 		if (node != null && request.equals(node, "搜索")) {
+			if (isEnd) {
+				return;
+			}
 			FTSMainUI();
 		}
 	}
@@ -111,9 +120,8 @@ function SayHiWithSnsPermissionUI() {
 	request.inputText(node, sendText);
 	sleep(500);
 	request.log('点击发送---------------------------------------->');
-	request.clickTextViewByID("com.tencent.mm:id/ki")
-	sleep(500);
 	lastPage = "com.tencent.mm.plugin.fts.ui.FTSMainUI";
-	request.performBackClick();
+	request.log('停留---------------------------------------->' + lastPage);
+	request.clickTextViewByID("com.tencent.mm:id/ki")；
+
 }
-function readTxt(text) {}
