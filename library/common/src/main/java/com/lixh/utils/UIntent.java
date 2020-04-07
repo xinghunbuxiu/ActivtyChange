@@ -9,14 +9,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Size;
 import android.util.SizeF;
 import android.util.SparseArray;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -610,8 +611,8 @@ public class UIntent {
      * @return a Serializable value, or null
      */
     @Nullable
-    public Serializable getSerializable(@Nullable String key) {
-        return mBundle.getSerializable(key);
+    public <T> T getSerializable(@Nullable String key) {
+        return (T) mBundle.getSerializable(key);
     }
 
     /**

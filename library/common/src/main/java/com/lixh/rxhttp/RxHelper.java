@@ -1,7 +1,7 @@
 package com.lixh.rxhttp;
 
 import android.app.Activity;
-import android.support.v4.util.ArrayMap;
+import androidx.collection.ArrayMap;
 
 import com.lixh.base.BaseResPose;
 import com.lixh.rxhttp.exception.ApiException;

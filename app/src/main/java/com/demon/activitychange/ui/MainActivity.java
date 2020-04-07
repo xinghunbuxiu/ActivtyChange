@@ -2,10 +2,11 @@ package com.demon.activitychange.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.demon.activitychange.R;
 import com.demon.activitychange.UiTools.GlobalView;

@@ -8,7 +8,7 @@ import android.os.Bundle;
  * des
  */
 
-public interface ILayout<M> {
+public interface ILayout {
     void init(Bundle savedInstanceState);
 
     /**

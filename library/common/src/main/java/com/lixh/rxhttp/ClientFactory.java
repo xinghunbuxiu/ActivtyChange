@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient.Builder;
 
 public enum ClientFactory {
     INSTANCE;
@@ -50,6 +51,9 @@ public enum ClientFactory {
 
     }
 
+    public Builder getBuilder() {
+        return this.mBuilder;
+    }
 
     private void onHttpCertficates(int[] certficates, String[] hosts) {
         mBuilder.socketFactory(ClientHelper.getSSLSocketFactory(BaseApplication.getAppContext(), certficates));

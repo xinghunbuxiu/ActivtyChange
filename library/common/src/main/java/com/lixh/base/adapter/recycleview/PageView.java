@@ -2,11 +2,13 @@ package com.lixh.base.adapter.recycleview;
 
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.RecycledViewPool;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.RecycledViewPool;
+
 import android.view.LayoutInflater;
 import android.view.View;
 

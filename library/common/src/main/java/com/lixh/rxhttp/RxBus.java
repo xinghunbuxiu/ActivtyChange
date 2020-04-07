@@ -1,6 +1,6 @@
 package com.lixh.rxhttp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.lixh.utils.ULog;
 

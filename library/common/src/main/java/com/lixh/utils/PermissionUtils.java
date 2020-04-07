@@ -6,8 +6,9 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build.VERSION;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.yanzhenjie.permission.AndPermission;
 
@@ -21,8 +22,21 @@ import static android.content.Context.APP_OPS_SERVICE;
 public class PermissionUtils {
     public static final String[] CAMERA = new String[]{permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE, permission.CAMERA};
     public static final String[] EXTERNAL_GROUP = new String[]{permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE};
-    public static final String[] INSTALL = new String[]{"android.permission.REQUEST_INSTALL_PACKAGES"};
-    public static final String[] PERMISSIONS = new String[]{permission.READ_PHONE_STATE, permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE};
+    public static final String[] AllPERMISSIONS = new String[]{
+            "android.permission.INSTALL_PACKAGES",
+            "android.permission.DELETE_PACKAGES",
+            "android.permission.CLEAR_APP_USER_DATA",
+            "android.permission.ACCESS_CACHE_FILESYSTEM",
+            "android.permission.READ_OWNER_DATA",
+            "android.permission.WRITE_OWNER_DATA",
+            "android.permission.CHANGE_CONFIGURATION",
+            "android.permission.DEVICE_POWER",
+            "android.permission.BATTERY_STATS",
+            "android.permission.ACCESS_DOWNLOAD_MANAGER",
+    };
+    public static final String[] PERMISSIONS = new String[]{permission.READ_PHONE_STATE,
+            permission.READ_EXTERNAL_STORAGE,
+            permission.WRITE_EXTERNAL_STORAGE};
 
     public static final String TAG = "Permission";
 
@@ -40,7 +54,7 @@ public class PermissionUtils {
 
     public static void requestPermission(Context context, final RequestPermission requestPermission, String... strArr) {
         AndPermission.with(context).runtime().permission(strArr)
-                .onGranted(data -> requestPermission.onRequestPermissionSuccess())
+                .onGranted(data ->requestPermission.onRequestPermissionSuccess() )
                 .onDenied(data -> requestPermission.onRequestPermissionFailure(data))
                 .start();
     }

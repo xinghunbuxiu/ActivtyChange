@@ -8,7 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
+
+import androidx.core.view.ViewCompat;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -309,7 +311,7 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * Set a drawable used for edge shadow.
      *
-     * @param shadow    Drawable to use
+     * @param shadow   Drawable to use
      * @param edgeFlag Combination of edge flags describing the edge to set
      * @see #EDGE_LEFT
      * @see #EDGE_RIGHT
@@ -329,7 +331,7 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * Set a drawable used for edge shadow.
      *
-     * @param resId     Resource of drawable to use
+     * @param resId    Resource of drawable to use
      * @param edgeFlag Combination of edge flags describing the edge to set
      * @see #EDGE_LEFT
      * @see #EDGE_RIGHT
@@ -468,14 +470,14 @@ public class SwipeBackLayout extends FrameLayout {
         });
         int background = a.getResourceId(0, 0);
         a.recycle();
-
-        ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView().findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        decorView.setBackgroundResource(background);
+        ViewGroup decor = decorView.findViewById(Window.ID_ANDROID_CONTENT);
         ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
-        decor.setBackgroundResource(background);
         decor.removeView(decorChild);
         addView(decorChild);
         setContentView(decorChild);
-        if(Build.VERSION.SDK_INT > 16) {
+        if (Build.VERSION.SDK_INT > 16) {
             decorChild.setFitsSystemWindows(true);
         }
         decor.addView(this);

@@ -2,13 +2,14 @@ package com.lixh.base;
 
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lixh.R;
@@ -32,7 +33,6 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
     int page = 0;
     int pageSize = 10;
     LoadingTip loadingTip;
-    private MyOnLoadFinish onLoadFinish;
     public BaseQuickAdapter mAdapters;
     boolean refresh;
     boolean pullLoadMore;
@@ -44,6 +44,7 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
     private RecyclerView.OnScrollListener onScrollListener;
     private int divideColor;
     RecyclerView.LayoutManager layoutManager;
+    boolean isDefault = true;
 
     public static QuickPage with(Context context) {
         return new QuickPage(context);
@@ -57,13 +58,25 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
         layoutManager = new LinearLayoutManager(context);
     }
 
+    //是否应用默认的模板
+    public QuickPage setEnabled(boolean isDefault) {
+        this.isDefault = isDefault;
+        return this;
+    }
+
+    public QuickPage bindRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+        return this;
+    }
+
     @Override
     public void reload() {
         onRefresh();
     }
 
-    public void setAdapters(BaseQuickAdapter mAdapters) {
+    public QuickPage setAdapter(BaseQuickAdapter mAdapters) {
         this.mAdapters = mAdapters;
+        return this;
     }
 
 
@@ -97,28 +110,29 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
         onLoad(onLoadingListener);
     }
 
-    public interface OnLoadFinish<T> {
-        void finish(@LoadingTip.LoadStatus int loadStatus);
+    public void smoothScrollToPosition(int position) {
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(position);
+        }
     }
 
 
     public interface OnLoadingListener {
-        void load(int page, OnLoadFinish onLoadFinish);
+        void load(int page);
     }
 
     /**
-     * @param list       结束后加载list信息
      * @param loadStatus //状态
      */
 
     public void finish(@LoadingTip.LoadStatus int loadStatus) {
-        onFinish();
+        onError(loadStatus);
     }
 
     /**
      * 结束填充
      */
-    public void onFinish() {
+    public void finish() {
         springView.finishRefreshAndLoadMore();
         onError(LoadingTip.LoadStatus.FINISH);
     }
@@ -146,25 +160,9 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
 
     public void onLoad(OnLoadingListener onLoadingListener) {
         if (this.onLoadingListener != null) {
-            onLoadFinish = new MyOnLoadFinish(this);
-            this.onLoadingListener.load(page, onLoadFinish);
+            this.onLoadingListener.load(page);
         }
     }
-
-    class MyOnLoadFinish<T> implements OnLoadFinish<T> {
-        QuickPage page;
-
-        public MyOnLoadFinish(QuickPage page) {
-            this.page = page;
-        }
-
-        @Override
-        public void finish(@LoadingTip.LoadStatus int loadStatus) {
-            page.finish(loadStatus);
-        }
-    }
-
-    ;
 
     @Override
     public void onRefresh() {
@@ -189,9 +187,8 @@ public class QuickPage<T> implements BaseQuickAdapter.RequestLoadMoreListener, S
         if (mAdapters != null) {
             if (isAutoLoadMore) {
                 mAdapters.setEnableLoadMore(true);
-            } else {
-                recyclerView.setAdapter(mAdapters);
             }
+            recyclerView.setAdapter(mAdapters);
             if (isPullLoadMore()) {
                 springView.setOnLoadListener(() -> onLoadMoreRequested());
             }

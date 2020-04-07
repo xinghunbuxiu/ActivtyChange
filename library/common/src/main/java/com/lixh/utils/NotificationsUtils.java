@@ -3,9 +3,9 @@ package com.lixh.utils;
 import android.app.Notification;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.core.app.NotificationCompat.Builder;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

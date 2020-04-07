@@ -3,7 +3,7 @@ package com.lixh.utils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;

@@ -1,9 +1,7 @@
 package com.lixh.presenter;
 
 import android.app.Activity;
-import android.content.ComponentCallbacks;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.lixh.base.BaseActivity;
 import com.lixh.base.BaseFragment;
@@ -12,7 +10,6 @@ import com.lixh.rxlife.LifeEvent;
 import com.lixh.utils.LoadingTip;
 import com.lixh.utils.UIntent;
 import com.lixh.view.IBase;
-import com.lixh.view.ILayout;
 import com.lixh.view.UToolBar;
 
 import io.reactivex.subjects.BehaviorSubject;
@@ -29,6 +26,8 @@ public abstract class BasePresenter<T extends IBase> {
     public UIntent intent;
     public RxHelper rxHelper;
     public T view;
+    public Activity activity;
+
 
     public abstract void onCreate(Bundle savedInstanceState);
 
@@ -38,7 +37,6 @@ public abstract class BasePresenter<T extends IBase> {
     }
 
     public void init(Bundle savedInstanceState, BehaviorSubject<LifeEvent> lifecycleSubject) {
-        Activity activity;
         BaseFragment fragment;
         if (view instanceof BaseActivity) {
             activity = (BaseActivity) view;

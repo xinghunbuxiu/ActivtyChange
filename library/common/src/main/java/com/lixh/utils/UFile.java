@@ -28,6 +28,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 文件处理util
@@ -207,6 +209,19 @@ public class UFile {
                     .getAbsolutePath() + "/" + packName);
         }
         dir.mkdirs();
+        return dir;
+    }
+
+    /***
+     * 获取项目文件
+     *
+     * @return
+     */
+    public static File getRootDir() {
+        File dir = Environment.getExternalStorageDirectory().getParentFile();
+        if (dir == null || dir.listFiles() == null) {
+            dir = Environment.getExternalStorageDirectory();
+        }
         return dir;
     }
 
@@ -652,5 +667,24 @@ public class UFile {
         }
         return System.currentTimeMillis();
     }
+
+    public static void getDirList(List<File> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getName().startsWith(".")) {
+                list.remove(i);
+            } else {
+                Collections.sort(list, (file, file2) -> {
+                    if (file.isDirectory() && file2.isFile()) {
+                        return -1;
+                    }
+                    if (file.isFile() && file2.isDirectory()) {
+                        return 1;
+                    }
+                    return file.getName().toLowerCase().compareTo(file2.getName().toLowerCase());
+                });
+            }
+        }
+    }
+
 
 }

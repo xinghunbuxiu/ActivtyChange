@@ -1,13 +1,14 @@
 package com.yhao.floatwindow;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * https://github.com/yhaolpz
  */
 
-public class FloatActivity extends Activity {
+public class FloatActivity extends AppCompatActivity {
 
     private static List<PermissionListener> mPermissionListenerList;
     private static PermissionListener mPermissionListener;

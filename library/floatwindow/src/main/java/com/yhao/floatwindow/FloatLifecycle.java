@@ -1,14 +1,12 @@
 package com.yhao.floatwindow;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by yhao on 17-12-1.
@@ -45,7 +43,7 @@ class FloatLifecycle extends BroadcastReceiver {
         sResumedListener = resumedListener;
     }
 
-    private boolean needShow(Activity activity) {
+    private boolean needShow(AppCompatActivity activity) {
         if (activities == null) {
             return true;
         }

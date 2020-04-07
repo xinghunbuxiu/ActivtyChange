@@ -13,6 +13,8 @@ package com.lixh.bean;/*
  * See the License for the specific language governing permissions and
 **/
 
+import androidx.annotation.NonNull;
+
 public class Message {
     public int what;
     public int arg1;
@@ -55,4 +57,13 @@ public class Message {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "what=" + what +
+                ", arg1=" + arg1 +
+                ", arg2=" + arg2 +
+                ", obj=" + obj +
+                '}';
+    }
 }

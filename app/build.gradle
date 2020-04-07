@@ -17,7 +17,6 @@ android {
         targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -68,7 +67,6 @@ android {
         implementation project(':library:JsAccessibilitySdk')
         api project(':library:common')
         implementation rootProject.ext.dependencies.appcompatV7
-        implementation rootProject.ext.dependencies.appcompatV4
         implementation rootProject.ext.dependencies.constraintLayout
     }
 }

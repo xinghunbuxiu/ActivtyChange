@@ -24,11 +24,6 @@ public class MyRelativeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public int getStatusBarHeight() {
-        double statusBarHeight = Math.ceil(25 * getContext().getResources().getDisplayMetrics().density);
-        return (int) statusBarHeight;
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setPadding(getPaddingLeft(), 0, getPaddingRight(), getPaddingBottom());

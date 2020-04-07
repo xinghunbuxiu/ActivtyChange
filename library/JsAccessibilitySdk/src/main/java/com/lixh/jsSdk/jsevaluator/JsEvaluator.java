@@ -1,9 +1,10 @@
 package com.lixh.jsSdk.jsevaluator;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.webkit.WebView;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.lixh.jsSdk.jsevaluator.interfaces.CallJavaResultInterface;
 import com.lixh.jsSdk.jsevaluator.interfaces.HandlerWrapperInterface;

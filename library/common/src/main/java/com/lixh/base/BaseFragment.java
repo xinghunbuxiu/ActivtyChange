@@ -2,13 +2,14 @@ package com.lixh.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.lixh.bean.Message;
 import com.lixh.presenter.BasePresenter;
@@ -16,15 +17,15 @@ import com.lixh.rxhttp.Observable;
 import com.lixh.rxhttp.Observer;
 import com.lixh.rxlife.LifeEvent;
 import com.lixh.utils.LoadingTip;
-import com.lixh.utils.LocalAppInfo;
+import com.lixh.utils.Global;
 import com.lixh.utils.TUtil;
 import com.lixh.utils.UIntent;
 import com.lixh.view.IBase;
-import com.lixh.view.ILayout;
 import com.lixh.view.LoadView;
 import com.lixh.view.UToolBar;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements Observer<Message>, IBase {
@@ -35,6 +36,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public UToolBar toolBar;
     public View mContentView;
     public UIntent intent;
+    Unbinder unbinder;
 
     protected void init(Bundle savedInstanceState) {
 
@@ -42,7 +44,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     public BaseFragment() {
         mPresenter = TUtil.getT(this, 0);
-        LocalAppInfo.getLocalAppInfo().addObserver(this);
+        Global.get().addObserver(this);
     }
 
     protected final BehaviorSubject<LifeEvent> lifecycleSubject = BehaviorSubject.create();
@@ -83,7 +85,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         return false;
     }
 
-    public abstract void initTitle(UToolBar toolBar);
+    public void initTitle(UToolBar toolBar) {
+
+    }
 
     public abstract int getLayoutId();
 
@@ -133,7 +137,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mContentView == null) {
             mContentView = layout.getRootView();
-            ButterKnife.bind(this, mContentView);
+            unbinder = ButterKnife.bind(this, mContentView);
             initTitleBar();
             if (mPresenter != null) {
                 mPresenter.bind(this).init(savedInstanceState, lifecycleSubject);

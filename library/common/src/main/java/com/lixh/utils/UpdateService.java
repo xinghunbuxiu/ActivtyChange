@@ -11,7 +11,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 import com.lixh.BuildConfig;
 
@@ -105,7 +105,7 @@ public class UpdateService extends Service {
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, saveFileName);
         //设置下载时或者下载完成时，通知栏是否显示
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setTitle(LocalAppInfo.getLocalAppInfo().getAppName());
+        request.setTitle(Global.get().getAppName());
         //执行下载，并返回任务唯一id
         enqueue = dm.enqueue(request);
     }

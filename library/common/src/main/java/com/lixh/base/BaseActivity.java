@@ -5,11 +5,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.view.Window;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import com.lixh.R;
 import com.lixh.app.AppManager;
@@ -21,11 +22,12 @@ import com.lixh.rxlife.LifeEvent;
 import com.lixh.setting.AppConfig;
 import com.lixh.utils.Exit;
 import com.lixh.utils.LoadingTip;
-import com.lixh.utils.LocalAppInfo;
+import com.lixh.utils.Global;
 import com.lixh.utils.SharedPreferencesUtil;
 import com.lixh.utils.SystemBarTintManager;
 import com.lixh.utils.TUtil;
 import com.lixh.utils.UIntent;
+import com.lixh.utils.ULog;
 import com.lixh.utils.UToast;
 import com.lixh.view.IBase;
 import com.lixh.view.ILayout;
@@ -34,7 +36,6 @@ import com.lixh.view.LoadView.Builder;
 import com.lixh.view.UToolBar;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
@@ -47,14 +48,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public final BehaviorSubject<LifeEvent> lifecycleSubject = BehaviorSubject.create();
     public Exit exit = new Exit();// 双击退出 封装
     private boolean mNowMode;
-    Unbinder unbinder;
+
 
     public BaseActivity() {
         mPresenter = TUtil.getT(this, 0);
         mNowMode = SharedPreferencesUtil.getInstance().getBoolean(AppConfig.ISNIGHT, false);
         // 把actvity放到application栈中管理
         AppManager.getAppManager().addActivity(this);
-        LocalAppInfo.getLocalAppInfo().addObserver(this);
+        Global.get().addObserver(this);
     }
 
     public UToolBar toolBar;
@@ -93,7 +94,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 initLoad(this);
             }
         }.createActivity();
-        unbinder = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         intent = layout.getIntent();
         tip = layout.getEmptyView();
         initTitleBar();
@@ -138,10 +139,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (toolBar != null) {
             toolBar.setDisplayShowTitleEnabled(false);
             toolBar.setDisplayHomeAsUpEnabled(isShowBack());
-            toolBar.setTitleTextColor(Color.WHITE);
-            final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
-            upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-            toolBar.setNavigationIcon(upArrow);
+            if (isShowBack()) {
+                toolBar.setTitleTextColor(Color.WHITE);
+                final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
+                upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+                toolBar.setNavigationIcon(upArrow);
+            }
             initTitle(toolBar);
             if (mPresenter != null) {
                 mPresenter.setToolBar(toolBar);
@@ -180,9 +183,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
         if (mPresenter != null)
             mPresenter.onDestroy();
         lifecycleSubject.onNext(LifeEvent.DESTROY);
@@ -206,6 +206,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public void update(Observable o, Message arg) {
+        ULog.e(arg.toString());
 
     }
 

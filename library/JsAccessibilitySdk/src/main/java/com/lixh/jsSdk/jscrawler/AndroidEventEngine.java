@@ -1,13 +1,9 @@
 package com.lixh.jsSdk.jscrawler;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,28 +11,21 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import com.lixh.jsSdk.base.BaseAccessibilityService;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK;
-import static android.support.v4.view.accessibility.AccessibilityNodeInfoCompat.FOCUS_INPUT;
+import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.FOCUS_INPUT;
 
 /**
  * Created by LIXH on 2019/3/21.

@@ -9,10 +9,13 @@ import java.lang.reflect.ParameterizedType;
  */
 public class TUtil {
     public static <T> T getT(Object o, int i) {
+
         try {
-            return ((Class<T>) ((ParameterizedType) (o.getClass()
-                    .getGenericSuperclass())).getActualTypeArguments()[i])
-                    .newInstance();
+            Class<T> clz = (Class<T>) (((ParameterizedType) o.getClass().getGenericSuperclass()).getActualTypeArguments()[i]);
+            if (clz == null) {
+                return null;
+            }
+            return clz.newInstance();
         } catch (InstantiationException e) {
             if (BuildConfig.LOG_DEBUG) {
                 e.printStackTrace();

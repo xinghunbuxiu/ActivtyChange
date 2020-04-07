@@ -21,8 +21,10 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -120,7 +122,6 @@ public class ProgressWebView extends LinearLayout {
         mWebSettings.setDatabaseEnabled (true);
         mWebSettings.setGeolocationDatabasePath (getContext ( ).getDir ("database", 0).getPath ( ));
         mWebSettings.setGeolocationEnabled (false);
-
         mWebView.loadUrl(url);
 
         // 设置WebViewClient

@@ -1,10 +1,8 @@
 package com.lixh.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.flyco.animation.BaseAnimatorSet;
@@ -42,12 +40,9 @@ public class Alert {
             currentDialog = dialogQueue.poll();
             if (currentDialog != null) {
                 currentDialog.show();
-                currentDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        currentDialog = null;
-                        showDialog(null);
-                    }
+                currentDialog.setOnDismissListener(dialog1 -> {
+                    currentDialog = null;
+                    showDialog(null);
                 });
             }
         }
@@ -59,7 +54,7 @@ public class Alert {
      * @param context
      * @param message
      */
-    public static void displayAlertDialog(Activity context,String message) {
+    public static void displayAlertDialog(Context context, String message) {
         displayAlertDialog(context, "温馨提示", message, (OnBtnClickL) null);
     }
 
@@ -70,7 +65,7 @@ public class Alert {
      * @param title
      * @param message
      */
-    public static void displayAlertDialog(Activity context, String title, String message) {
+    public static void displayAlertDialog(Context context, String title, String message) {
         displayAlertDialog(context, title, message, (OnBtnClickL) null);
     }
 
@@ -81,7 +76,7 @@ public class Alert {
      * @param title
      * @param message
      */
-    public static void displayAlertDialog(Activity context, String title, String message, OnBtnClickL... onBtnClickL) {
+    public static void displayAlertDialog(Context context, String title, String message, OnBtnClickL... onBtnClickL) {
         NormalDialog dialog = new NormalDialog(context);
         dialog.content(message)//
                 .style(NormalDialog.STYLE_ONE)//
@@ -92,17 +87,12 @@ public class Alert {
         if (onBtnClickL != null) {
             dialog.setOnBtnClickL(onBtnClickL);
         } else {
-            dialog.setOnBtnClickL(new OnBtnClickL() {
-                @Override
-                public void onBtnClick() {
-                    dismiss();
-                }
-            });
+            dialog.setOnBtnClickL((OnBtnClickL) () -> dismiss());
         }
         showDialog(dialog);
     }
 
-    public static void displayAlertDialog(Activity context, String warn, String message, String okStr, String cancelStr, OnBtnClickL okOnClickListener, OnBtnClickL cancelOnClickListener) {
+    public static void displayAlertDialog(Context context, String warn, String message, String okStr, String cancelStr, OnBtnClickL okOnClickListener, OnBtnClickL cancelOnClickListener) {
         NormalDialog dialog = new NormalDialog(context);
         dialog.content(message)//
                 .style(NormalDialog.STYLE_TWO)//
@@ -117,37 +107,31 @@ public class Alert {
         showDialog(dialog);
     }
 
-    public static void displayAlertSelectedDialog(Activity context, String[] stringItems, final OnOperItemClickL onOperItemClickL) {
+    public static void displayAlertSelectedDialog(Context context, String[] stringItems, final OnOperItemClickL onOperItemClickL) {
         ActionSheetDialog dialog = new ActionSheetDialog(context, stringItems, null);
         dialog.isTitleShow(false)
-                .setOnOperItemClickL(new OnOperItemClickL() {
-                    @Override
-                    public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        dismiss();
-                        onOperItemClickL.onOperItemClick(parent, view, position, id);
-                    }
+                .setOnOperItemClickL((parent, view, position, id) -> {
+                    dismiss();
+                    onOperItemClickL.onOperItemClick(parent, view, position, id);
                 });
         showDialog(dialog);
     }
 
-    public static void displayAlertSingledDialog(Activity context, String[] stringItems, final OnOperItemClickL onOperItemClickL) {
+    public static void displayAlertSingledDialog(Context context, String[] stringItems, final OnOperItemClickL onOperItemClickL) {
         ArrayList<DialogMenuItem> testItems = new ArrayList<>();
 
         final NormalListDialog dialog = new NormalListDialog(context, stringItems);
         dialog.title("请选择")//
                 .layoutAnimation(null);
-        dialog.setOnOperItemClickL(new OnOperItemClickL() {
-            @Override
-            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dialog.dismiss();
-                if (onOperItemClickL != null)
-                    onOperItemClickL.onOperItemClick(parent, view, position, id);
-            }
+        dialog.setOnOperItemClickL((parent, view, position, id) -> {
+            dialog.dismiss();
+            if (onOperItemClickL != null)
+                onOperItemClickL.onOperItemClick(parent, view, position, id);
         });
         showDialog(dialog);
     }
 
-    public static void displayLoading(Activity context, int layoutId, DialogInterface.OnDismissListener dismissListener) {
+    public static void displayLoading(Context context, int layoutId, DialogInterface.OnDismissListener dismissListener) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .customView(layoutId, false)
                 .dismissListener(dismissListener).build();

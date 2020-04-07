@@ -1,9 +1,10 @@
 apply plugin: 'com.android.library'
+
 android {
-    compileSdkVersion versions.compileSdkVersion
+    compileSdkVersion rootProject.ext.versions.compileSdkVersion
     defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
+        minSdkVersion rootProject.ext.versions.minSdkVersion
+        targetSdkVersion rootProject.ext.versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
         //添加如下配置就OK了
@@ -18,7 +19,12 @@ android {
     }
     buildTypes {
         debug {
+            // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -30,6 +36,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
@@ -43,7 +53,6 @@ dependencies {
     api rootProject.ext.dependencies.multidex
     //基本东西
     api rootProject.ext.dependencies.butterknife
-    annotationProcessor rootProject.ext.processor.butterknife
     api rootProject.ext.dependencies.appcompatV7
     api rootProject.ext.dependencies.design
     api rootProject.ext.dependencies.recycle

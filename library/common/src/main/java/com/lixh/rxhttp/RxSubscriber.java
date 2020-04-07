@@ -1,6 +1,6 @@
 package com.lixh.rxhttp;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import com.lixh.BuildConfig;
@@ -15,7 +15,7 @@ import io.reactivex.observers.DisposableObserver;
 
 public abstract class RxSubscriber<T> extends DisposableObserver<T> {
 
-    private Activity mContext;
+    private Context mContext;
     private String msg;
     private boolean showDialog = true;
 
@@ -30,17 +30,17 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
         this.showDialog = true;
     }
 
-    public RxSubscriber(Activity context, String msg, boolean showDialog) {
+    public RxSubscriber(Context context, String msg, boolean showDialog) {
         this.mContext = context;
         this.msg = msg;
         this.showDialog = showDialog;
     }
 
-    public RxSubscriber(Activity context) {
+    public RxSubscriber(Context context) {
         this(context, BaseApplication.getAppContext().getString(R.string.loading), true);
     }
 
-    public RxSubscriber(Activity context, boolean showDialog) {
+    public RxSubscriber(Context context, boolean showDialog) {
         this(context, BaseApplication.getAppContext().getString(R.string.loading), showDialog);
     }
 
@@ -69,12 +69,7 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
     public void showProgressDialog() {
         if (showDialog) {
             try {
-                Alert.displayLoading(mContext, R.layout.alert_proress, new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        cancelProgress();
-                    }
-                });
+                Alert.displayLoading(mContext, R.layout.alert_proress, dialog -> cancelProgress());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -84,7 +79,11 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T t) {
-        _onNext(t);
+        try {
+            _onNext(t);
+        } catch (Exception e) {
+            _onError(e.getMessage());
+        }
     }
 
     @Override
