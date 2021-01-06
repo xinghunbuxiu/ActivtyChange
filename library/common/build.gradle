@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
@@ -52,23 +54,26 @@ dependencies {
     api project(':library:bottom-navigation-bar')
     api rootProject.ext.dependencies.multidex
     //基本东西
-    api rootProject.ext.dependencies.butterknife
     api rootProject.ext.dependencies.appcompatV7
     api rootProject.ext.dependencies.design
     api rootProject.ext.dependencies.recycle
     api rootProject.ext.dependencies.fastJson
-    api rootProject.ext.dependencies.rxpermissions
+    api rootProject.ext.dependencies.permissions
     api rootProject.ext.dependencies.constraintLayout
-    api rootProject.ext.dependencies.rxandroid
+    api rootProject.ext.dependencies.coroutines_core
+    api rootProject.ext.dependencies.coroutines_android
     api rootProject.ext.dependencies.glide
+    api rootProject.ext.dependencies.retrofit
     api rootProject.ext.dependencies.retrofit2gson
     api rootProject.ext.dependencies.retrofit2Adapter
     api rootProject.ext.dependencies.okhttp
     api rootProject.ext.dependencies.okhttpLog
     api rootProject.ext.dependencies.zxing_android      //zxing核心依赖
     api rootProject.ext.dependencies.zxing
+    annotationProcessor rootProject.ext.processor.glide
 
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
     api 'com.github.walkermanx:PhotoPicker:1.0.5'
 
     //dialog
@@ -81,5 +86,10 @@ dependencies {
     api('com.alibaba.android:vlayout:1.2.2@aar') {              //阿里巴巴UI
         transitive = true
     }
+    api "androidx.core:core-ktx:1.2.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

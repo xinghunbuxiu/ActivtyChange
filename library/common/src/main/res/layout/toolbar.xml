@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
-    android:minHeight="?attr/actionBarSize"></com.lixh.view.UToolBar>
+    android:minHeight="?attr/actionBarSize" />
 

@@ -2,3 +2,4 @@ include ':app', ':library:floatwindow',
         ':library:JsAccessibilitySdk',
         ':library:bottom-navigation-bar',
         ':library:common'
+

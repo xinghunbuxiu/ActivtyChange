@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     signingConfigs {
@@ -69,4 +71,11 @@ android {
         implementation rootProject.ext.dependencies.appcompatV7
         implementation rootProject.ext.dependencies.constraintLayout
     }
+}
+dependencies {
+    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
