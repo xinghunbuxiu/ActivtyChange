@@ -2,13 +2,6 @@ package com.lixh.view
 
 import androidx.annotation.IntDef
 
-/**
- * Created by LIXH on 2017/5/17.
- * email lixhVip9@163.com
- * des
- */
-
-interface IBase
 
 interface OnSlideListener {
     fun slideState(@State state: Int)

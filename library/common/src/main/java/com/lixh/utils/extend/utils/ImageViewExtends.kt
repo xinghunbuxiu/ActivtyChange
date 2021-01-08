@@ -57,11 +57,13 @@ fun ImageView.loadClear(context: Context) {
  */
 fun ImageView.loadImageByProportion(@FloatRange(from = 0.0, to = 1.0) widthProportion: Float, heightProportion: Float) {
     this.adjustViewBounds = true
-    var wm: WindowManager = this.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    var screenWidth = when (wm) {
-        null -> this.context.resources.displayMetrics.widthPixels - leftMargin - rightMargin
+    val wm: WindowManager = this.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val screenWidth = when (wm) {
+        null -> {
+            this.context.resources.displayMetrics.widthPixels - leftMargin - rightMargin
+        }
         else -> {
-            var point = Point()
+            val point = Point()
             if (SDK_INT >= JELLY_BEAN_MR1) {
                 wm.defaultDisplay.getRealSize(point)
             } else {
@@ -70,7 +72,7 @@ fun ImageView.loadImageByProportion(@FloatRange(from = 0.0, to = 1.0) widthPropo
             point.x - leftMargin - rightMargin
         }
     }
-    var para: ViewGroup.LayoutParams = this.layoutParams
+    val para: ViewGroup.LayoutParams = this.layoutParams
     para.width = (screenWidth * widthProportion).toInt()
     para.height = ViewGroup.LayoutParams.WRAP_CONTENT
     layoutParams = para

@@ -2,10 +2,11 @@ package com.lixh.view
 
 import android.app.Activity
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import com.lixh.utils.UView
 
 
-inline fun IBase.ui(block: ExtandView.() -> Unit) = ExtandView(this).run {
+inline fun LifecycleOwner.ui(block: ExtandView.() -> Unit) = ExtandView(this).run {
     block(this)
     this
 }

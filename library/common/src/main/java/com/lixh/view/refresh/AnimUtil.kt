@@ -91,10 +91,10 @@ object AnimUtil {
     }
 
     fun startFromY(view: View, fromY: Float) {
-        ObjectAnimator.ofFloat(view, "translationY", fromY, 0).start()
+        ObjectAnimator.ofFloat(view, "translationY", fromY, 0f).start()
     }
 
     fun startToY(view: View, toY: Float) {
-        ObjectAnimator.ofFloat(view, "translationY", 0, toY).start()
+        ObjectAnimator.ofFloat(view, "translationY", 0f, toY).start()
     }
 }

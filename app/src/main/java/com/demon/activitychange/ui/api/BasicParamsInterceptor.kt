@@ -1,21 +1,13 @@
-package com.demon.activitychange.ui.api
+package com.xbtx.shopManager.api
 
 import android.text.TextUtils
-
-import java.io.IOException
-import java.util.ArrayList
-import java.util.HashMap
-import kotlin.collections.Map.Entry
-
-import okhttp3.FormBody
-import okhttp3.Headers
-import okhttp3.HttpUrl
-import okhttp3.Interceptor
-import okhttp3.MediaType
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.Buffer
+import java.io.IOException
+import java.util.*
+import kotlin.collections.Map.Entry
 
 
 /**
@@ -30,7 +22,7 @@ class BasicParamsInterceptor private constructor() : Interceptor {
     private var userAgent = "Android"
     internal var requestIntercept: IRequestIntercept? = null
 
-    internal interface IRequestIntercept {
+    interface IRequestIntercept {
         fun intercept(request: Request): Request
     }
 
@@ -41,13 +33,13 @@ class BasicParamsInterceptor private constructor() : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        var request: Request? = chain.request()
-        if (requestIntercept != null) {
-            request = requestIntercept!!.intercept(request)
+        var request: Request= chain.request()
+        requestIntercept?.let {
+            request = it.intercept(request)
         }
-        val requestBuilder = request!!.newBuilder()
+        val requestBuilder = request.newBuilder()
         val headerBuilder = request.headers.newBuilder()
-        if (this.headerParamsMap.size > 0) {
+        if (this.headerParamsMap.isNotEmpty()) {
             val iterator = this.headerParamsMap.entries.iterator()
             while (iterator.hasNext()) {
                 val entry = iterator.next() as Entry<*, *>
@@ -59,13 +51,17 @@ class BasicParamsInterceptor private constructor() : Interceptor {
                 headerBuilder.add(line)
             }
         }
-        if (this.queryParamsMap.size > 0) {
+        if (this.queryParamsMap.isNotEmpty()) {
             if (request.method == "GET") {
-                request = this.injectParamsIntoUrl(request.url.newBuilder(), requestBuilder, this.queryParamsMap)
+                request = this.injectParamsIntoUrl(
+                    request.url.newBuilder(),
+                    requestBuilder,
+                    this.queryParamsMap
+                )!!
             }
         }
         // process post body inject
-        if (this.paramsMap.size > 0) {
+        if (this.paramsMap.isNotEmpty()) {
             if (this.canInjectIntoBody(request)) {
                 val formBodyBuilder = FormBody.Builder()
                 for ((key, value) in this.paramsMap) {
@@ -73,9 +69,14 @@ class BasicParamsInterceptor private constructor() : Interceptor {
                 }
 
                 val formBody = formBodyBuilder.build()
-                var postBodyString = bodyToString(request!!.body)
-                postBodyString += (if (postBodyString.length > 0) "&" else "") + bodyToString(formBody)
-                requestBuilder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), postBodyString))
+                var postBodyString = bodyToString(request.body)
+                postBodyString += (if (postBodyString.isNotEmpty()) "&" else "") + bodyToString(
+                    formBody
+                )
+                requestBuilder.post(
+                    postBodyString
+                        .toRequestBody("application/x-www-form-urlencoded;charset=UTF-8".toMediaTypeOrNull())
+                )
             }
         }
         requestBuilder.headers(headerBuilder.build())
@@ -96,8 +97,12 @@ class BasicParamsInterceptor private constructor() : Interceptor {
     }
 
     // func to inject params into url
-    private fun injectParamsIntoUrl(httpUrlBuilder: HttpUrl.Builder, requestBuilder: Request.Builder, paramsMap: Map<String, String>): Request? {
-        if (paramsMap.size > 0) {
+    private fun injectParamsIntoUrl(
+        httpUrlBuilder: HttpUrl.Builder,
+        requestBuilder: Request.Builder,
+        paramsMap: Map<String, String>
+    ): Request? {
+        if (paramsMap.isNotEmpty()) {
             val iterator = paramsMap.entries.iterator()
             while (iterator.hasNext()) {
                 val entry = iterator.next() as Entry<*, *>

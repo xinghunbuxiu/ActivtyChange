@@ -3,8 +3,8 @@ package com.lixh.presenter
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.lixh.utils.UIntent
-import com.lixh.view.IBase
+import androidx.lifecycle.LifecycleOwner
+import com.lixh.rxhttp.EventBus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -16,8 +16,7 @@ import kotlinx.coroutines.cancel
  * on 2016.07.11:55
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BasePresenter<V : IBase> : CoroutineScope by MainScope() {
-    var intent: UIntent? = null
+abstract class BasePresenter<V : LifecycleOwner> : CoroutineScope by MainScope() {
     var activity: Activity? = null
     var v: V? = null
 
@@ -27,20 +26,17 @@ abstract class BasePresenter<V : IBase> : CoroutineScope by MainScope() {
 
     fun <T> get() = v as T
 
-    fun attach(view: IBase) {
+    fun attach(view: LifecycleOwner) {
         v = view as V
         activity = when (view) {
             is FragmentActivity -> {
-                intent = UIntent(view)
                 view
             }
             is Fragment -> {
-                intent = UIntent(view.activity!!)
                 view.activity
             }
             else -> null
         }
-
     }
 
 

@@ -1,13 +1,10 @@
 package com.lixh.utils
 
 import android.content.Context
-
 import com.lixh.app.BaseApplication
-
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.util.Properties
+import java.util.*
 
 /**
  * 配置文件工具类
@@ -27,9 +24,9 @@ object UProperties {
     fun loadProperties(fileName: String, dirName: String): Properties {
         val props = Properties()
         try {
-            val id = BaseApplication.appResources
+            val id = application.resources
                     .getIdentifier(fileName, dirName,
-                            BaseApplication.appContext.getPackageName())
+                            application.packageName)
             props.load(BaseApplication.appContext.getResources()
                     .openRawResource(id))
         } catch (e: Exception) {
@@ -82,7 +79,7 @@ object UProperties {
     fun loadConfigNoDirs(fileName: String): Properties {
         val properties = Properties()
         try {
-            val s = BaseApplication.appContext.openFileInput(
+            val s = application.openFileInput(
                     fileName)
             properties.load(s)
         } catch (e: Exception) {
@@ -101,7 +98,7 @@ object UProperties {
      */
     fun saveConfigNoDirs(fileName: String, properties: Properties) {
         try {
-            val s = BaseApplication.appContext.openFileOutput(
+            val s = application.openFileOutput(
                     fileName, Context.MODE_PRIVATE)
             properties.store(s, "")
         } catch (e: Exception) {
@@ -115,7 +112,7 @@ object UProperties {
 
         val properties = Properties()
         try {
-            val `is` = BaseApplication.appContext.getAssets()
+            val `is` = application.getAssets()
                     .open(fileName)
             properties.load(`is`)
         } catch (e: Exception) {

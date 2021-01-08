@@ -3,6 +3,7 @@ package com.lixh.app
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
+import com.lixh.utils.Global
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -15,6 +16,7 @@ object AppManager {
      * 添加Activity到堆栈
      */
     fun addActivity(activity: Activity) {
+
         activityStack.add(activity)
     }
 

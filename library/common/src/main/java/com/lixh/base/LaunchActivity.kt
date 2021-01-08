@@ -8,10 +8,9 @@ import android.os.Message
 import android.util.Log
 import android.view.Window
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.lixh.utils.PermissionUtils
 import com.lixh.utils.extend.utils.startActivity
-import com.lixh.view.IBase
 import com.sembozdemir.permissionskt.askPermissions
 
 /**
@@ -22,7 +21,7 @@ import com.sembozdemir.permissionskt.askPermissions
  * @Description: 欢迎界面
  * @date 2015年5月12日 上午10:25:24
  */
-abstract class LaunchActivity(@LayoutRes val layoutId: Int, private val isFirst: Boolean = false) : AppCompatActivity(), IBase {
+abstract class LaunchActivity(@LayoutRes val layoutId: Int, private val isFirst: Boolean = false) : FragmentActivity() {
 
     /**
      * Handler:跳转到不同界面

@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Message
+import android.widget.Toast
 import com.flyco.dialog.listener.OnBtnClickL
 import com.lixh.R
 
@@ -40,7 +41,7 @@ class UpdateHelper private constructor(context: Context, internal var builder: B
             val msgStr = msg.obj.toString()
             when (msg.what) {
                 1 -> builder.onResultListener?.parse(msgStr)
-                2 -> showShort(R.string.not_connect_networks)
+                2 -> R.string.not_connect_networks.toast()
             }
         }
     }
@@ -56,9 +57,9 @@ class UpdateHelper private constructor(context: Context, internal var builder: B
                 context.bindService(updateIntent, builder.serviceConnection,
                         Context.BIND_AUTO_CREATE)
 
-                showLong(R.string.backstage_down)
+                R.string.backstage_down.toast(Toast.LENGTH_LONG)
             } else {
-                showLong(R.string.plug_sdcard_tip)
+                R.string.plug_sdcard_tip.toast(Toast.LENGTH_LONG)
             }
         }, null)
     }

@@ -14,21 +14,14 @@
  * limitations under the License.
  *
  */
-package com.demon.activitychange.ui.api
+package com.xbtx.shopManager.api
+
+import com.demon.activitychange.ui.api.HostType
 
 object ApiConstants {
-    val BASE_DUOKAN_URL = "http://www.duokan.com"
-    val BASE_DUOKAN_INFO_URL = "https://cdn.cnbj1.fds.api.mi-img.com/"
 
+    val BASE_URL = "http://mall.xunbao88.com.cn"
 
-    val BAIDU_URL = "http://app.video.baidu.com"
-
-    val M_BAIDU_URL = "https://m.baidu.com"
-
-    val BASE_URL = "http://www.wdfgm.com"
-
-    val JUHE_URL = "http://v.juhe.cn"
-    private val M_MAHUA_URL = "http://api.hbzjmf.com"
 
     /**
      * 获取对应的host
@@ -37,17 +30,9 @@ object ApiConstants {
      * @return host
      */
     fun getHost(hostType: Int): String {
-        val host: String
-        when (hostType) {
-            HostType.BASE_URL -> host = BASE_URL
-            HostType.BASE_DUOKAN_URL -> host = BASE_DUOKAN_URL
-            HostType.BASE_DUOKAN_INFO_URL -> host = BASE_DUOKAN_INFO_URL
-            HostType.JUHE_URL -> host = JUHE_URL
-            HostType.BAIDU_URL -> host = BAIDU_URL
-            HostType.M_BAIDU_URL -> host = M_BAIDU_URL
-            HostType.M_MAHUA_URL -> host = M_MAHUA_URL
-            else -> host = BASE_URL
+        return when (hostType) {
+            HostType.BASE_URL -> BASE_URL
+            else -> BASE_URL
         }
-        return host
     }
 }

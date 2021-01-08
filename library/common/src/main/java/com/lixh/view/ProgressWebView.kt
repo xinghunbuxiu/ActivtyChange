@@ -41,8 +41,8 @@ import com.lixh.R
 
 class ProgressWebView @JvmOverloads constructor(private val mContext: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : LinearLayout(mContext, attrs, defStyle) {
 
-    internal var mWebView: WebView
-    internal var mProgressBar: ProgressBar
+    private lateinit var mWebView: WebView
+    internal lateinit var mProgressBar: ProgressBar
     var url: String? = null
 
     init {

@@ -36,9 +36,9 @@ object UView {
      * @param res
      * @return
      */
-    fun <T : View> inflate(context: Context, res: Int, parent: ViewGroup?): T {
+    fun <T : View> inflate(context: Context, res: Int, parent: ViewGroup?, attachToRoot: Boolean = false): T {
         return with(LayoutInflater.from(context)) {
-            inflate(res, parent, false) as T
+            inflate(res, parent, attachToRoot) as T
         }
     }
 

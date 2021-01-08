@@ -19,6 +19,7 @@ android {
         targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -27,7 +28,7 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
         release {
             //混淆
@@ -37,7 +38,7 @@ android {
             // 移除无用的resource文件
             shrinkResources true
             //签名
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
             pseudoLocalesEnabled true
             zipAlignEnabled true
             proguardFiles 'proguard-rules.pro'
@@ -73,7 +74,7 @@ android {
     }
 }
 dependencies {
-    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "androidx.core:core-ktx:1.3.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

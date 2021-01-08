@@ -72,7 +72,7 @@ object Utils {
             val method = Activity::class.java.getDeclaredMethod("convertToTranslucent",
                     translucentConversionListenerClazz!!)
             method.isAccessible = true
-            method.invoke(activity, *arrayOf(null))
+            method.invoke(activity, null)
         } catch (t: Throwable) {
         }
 

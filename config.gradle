@@ -9,8 +9,8 @@ ext {
             targetSdkVersion  : 28,
     ]
     dependencies = [
-            constraintLayout  : 'androidx.constraintlayout:constraintlayout:1.1.3',
-            appcompatV7       : 'androidx.appcompat:appcompat:1.0.0',
+            constraintLayout  : 'androidx.constraintlayout:constraintlayout:2.0.4',
+            appcompatV7       : 'androidx.appcompat:appcompat:1.2.0',
             appcompatV4       : 'androidx.legacy:legacy-support-v4:1.0.0',
             design            : 'com.google.android.material:material:1.0.0',
             recycle           : 'androidx.recyclerview:recyclerview:1.0.0',

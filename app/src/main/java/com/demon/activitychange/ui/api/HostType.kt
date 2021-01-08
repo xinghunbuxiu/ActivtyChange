@@ -27,21 +27,4 @@ object HostType {
      * 基本url
      */
     val BASE_URL = 1
-    val BASE_DUOKAN_URL = 2
-
-    /**
-     * 基本url
-     */
-    val BAIDU_URL = 3
-
-
-    /**
-     * 基本url
-     */
-    val JUHE_URL = 4
-
-
-    val BASE_DUOKAN_INFO_URL = 5
-    val M_BAIDU_URL = 6
-    val M_MAHUA_URL = 7
 }

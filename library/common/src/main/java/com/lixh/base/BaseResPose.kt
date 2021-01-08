@@ -1,5 +1,6 @@
 package com.lixh.base
 
+import android.util.Log
 import java.io.Serializable
 
 /**
@@ -19,5 +20,10 @@ data class BaseResPose<T>(var code: Int = 0, var msg: String, var data: T?) : Se
                 ", msg='" + message + '\''.toString() +
                 ", data=" + data +
                 '}'.toString()
+    }
+
+    fun ok(): Boolean {
+        Log.e("BaseResPose", "$code")
+        return 200 == code || 1 == code
     }
 }

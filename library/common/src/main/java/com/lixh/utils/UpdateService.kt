@@ -13,11 +13,8 @@ import android.os.Environment
 import android.os.IBinder
 import android.util.Log
 import androidx.core.content.FileProvider
-
 import com.lixh.BuildConfig
 import com.lixh.base.LaunchActivity
-import com.sembozdemir.permissionskt.askPermissions
-
 import java.io.File
 
 
@@ -55,21 +52,21 @@ class UpdateService : Service() {
                     }
                 }
                 registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-                //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
-                askPermissions(*PermissionUtils.EXTERNAL_GROUP) {
-                    onGranted {
-                        startDownload(downloadUrl, saveFileName)
-                    }
-                    onDenied { permissions ->
-                        permissions.forEach {
-                            Log.d(LaunchActivity.TAG, "Call $it is denied")
-                        }
-                        // 请求失败回收当前服务
-                        UToast.showShort("没有SD卡储存权限,下载失败")
-                        intentWebDown(downloadUrl)
-                        stopSelf()
-                    }
-                }
+//                //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
+//                askPermissions(*PermissionUtils.EXTERNAL_GROUP) {
+//                    onGranted {
+//                        startDownload(downloadUrl, saveFileName)
+//                    }
+//                    onDenied { permissions ->
+//                        permissions.forEach {
+//                            Log.d(LaunchActivity.TAG, "Call $it is denied")
+//                        }
+//                        // 请求失败回收当前服务
+//                        "没有SD卡储存权限,下载失败".toast()
+//                        intentWebDown(downloadUrl)
+//                        stopSelf()
+//                    }
+//                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
