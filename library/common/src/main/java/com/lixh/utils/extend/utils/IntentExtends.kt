@@ -30,7 +30,7 @@ fun <T> Activity.getParam(name: String, default: T): T = with(intent.extras) {
 /**
  * 通过Class跳转界面
  */
-fun ContextWrapper.startActivity(cls: Class<*>, vararg param: Pair<String, Any?>) {
+fun ContextWrapper.goPage(cls: Class<*>, vararg param: Pair<String, Any?>) {
     startActivity(createIntent(this,
             cls,
             param
@@ -42,7 +42,7 @@ fun ContextWrapper.startActivity(cls: Class<*>, vararg param: Pair<String, Any?>
 /**
  * 通过Class跳转界面
  */
-fun Fragment.startActivity(cls: Class<*>, vararg param: Pair<String, Any?>) {
+fun Fragment.goPage(cls: Class<*>, vararg param: Pair<String, Any?>) {
     startActivity(createIntent(activity!!,
             cls,
             param
@@ -53,7 +53,7 @@ fun Fragment.startActivity(cls: Class<*>, vararg param: Pair<String, Any?>) {
 /**
  * 通过Class跳转界面 带返回
  */
-fun Activity.startActivityForResult(cls: Class<*>, requestCode: Int, param: Array<out Pair<String, Any?>>) {
+fun Activity.goPageForResult(cls: Class<*>, requestCode: Int, param: Array<out Pair<String, Any?>>) {
     startActivityForResult(createIntent(this,
             cls,
             param
@@ -63,7 +63,7 @@ fun Activity.startActivityForResult(cls: Class<*>, requestCode: Int, param: Arra
 /**
  * 通过Class跳转界面
  */
-fun Fragment.startActivityForResult(cls: Class<*>, requestCode: Int, vararg param: Pair<String, Any?>) {
+fun Fragment.goPageForResult(cls: Class<*>, requestCode: Int, vararg param: Pair<String, Any?>) {
     activity?.let {
         it.startActivityForResult(createIntent(it,
                 cls,

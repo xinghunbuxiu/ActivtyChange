@@ -10,7 +10,7 @@ import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
 import com.lixh.utils.PermissionUtils
-import com.lixh.utils.extend.utils.startActivity
+import com.lixh.utils.extend.utils.goPage
 import com.sembozdemir.permissionskt.askPermissions
 
 /**
@@ -29,7 +29,7 @@ abstract class LaunchActivity(@LayoutRes val layoutId: Int, private val isFirst:
     @SuppressLint("HandlerLeak")
     private val mHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
-            startActivity(toActivity(msg.what))
+            goPage(toActivity(msg.what))
             finish()
             super.handleMessage(msg)
         }

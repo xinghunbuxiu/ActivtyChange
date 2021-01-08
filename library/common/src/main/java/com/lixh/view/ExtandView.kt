@@ -33,9 +33,9 @@ open class ExtandView(view: LifecycleOwner) {
     var activity: FragmentActivity? = null
     lateinit var root: RelativeLayout
     private var contentTop: Boolean = true
-    var mSlideMenu: SlideMenu? = null
-    var toolbar: UToolBar? = null
-    val swipeBackLayout: SwipeBackLayout? = null
+    private var mSlideMenu: SlideMenu? = null
+    private var toolbar: UToolBar? = null
+    private var swipeBackLayout: SwipeBackLayout? = null
     var eventBus: EventBus = EventBus()
 
     init {
@@ -64,13 +64,13 @@ open class ExtandView(view: LifecycleOwner) {
         get() = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
     //标题栏 默认 toolBar
-    inline fun titleBar(block: UToolBar.() -> Unit) = toolbar ?: titleBar(R.layout.toolbar) {
+    fun titleBar(block: UToolBar.() -> Unit) = toolbar ?: titleBar(R.layout.toolbar) {
         toolbar = this
         block(this)
     }
 
     //标题栏 自定义
-    inline fun <T : View> titleBar(resId: Int, block: T.() -> Unit) =
+    fun <T : View> titleBar(resId: Int, block: T.() -> Unit) =
             UView.inflate<T>(activity!!, resId, root).run {
                 block(this)
                 this
@@ -78,7 +78,7 @@ open class ExtandView(view: LifecycleOwner) {
                 root.addView(this)
             }
 
-    inline fun <T : View> addBody(view: T, isBelowTitle: Boolean = true, block: T .() -> T): T {
+    fun <T : View> addBody(view: T, isBelowTitle: Boolean = true, block: T .() -> T): T {
         "ssss".log()
         root.addView(view, lParams.apply {
             "ssss1$isBelowTitle$toolbar".log()
@@ -93,7 +93,7 @@ open class ExtandView(view: LifecycleOwner) {
     }
 
     //正文 设置 layout 
-    inline fun <T : View> body(resId: Int, isBelowTitle: Boolean = true, block: T .() -> T) = addBody(UView.inflate<T>(activity!!, resId), isBelowTitle, block)
+    fun <T : View> body(resId: Int, isBelowTitle: Boolean = true, block: T .() -> T) = addBody(UView.inflate<T>(activity!!, resId), isBelowTitle, block)
 
     fun body(resId: Int, isBelowTitle: Boolean = true) = addBody(UView.inflate<ViewGroup>(activity!!, resId), isBelowTitle) {
         this
@@ -111,20 +111,20 @@ open class ExtandView(view: LifecycleOwner) {
         Utils.convertActivityToTranslucent(activity!!)
         swipeBackLayout?.scrollToFinishActivity()
     }
-
     //侧滑返回
-    inline fun swipeBack(block: SwipeBackLayout?.() -> Unit) = swipeBackLayout
+    fun swipeBack(block: SwipeBackLayout?.() -> Unit) = swipeBackLayout
             ?: SwipeBackActivityHelper(activity!!).let {
+                swipeBackLayout = it.swipeBackLayout
                 it.onActivityCreate()
                 it.swipeBackLayout?.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
                 it.swipeBackLayout?.setEnableGesture(true)
-                it.swipeBackLayout
+                swipeBackLayout
             }.run {
                 block(this)
             }
 
     //侧滑
-    inline fun slideMenu(leftView: BaseSlideView, block: SlideMenu.() -> Unit) = mSlideMenu
+    fun slideMenu(leftView: BaseSlideView, block: SlideMenu.() -> Unit) = mSlideMenu
             ?: with(SlideMenu(activity!!)) {
                 id = R.id.slideMenu
                 contentView = root
@@ -138,7 +138,7 @@ open class ExtandView(view: LifecycleOwner) {
             }
 
     //底部tab  默认是
-    inline fun bottomBar(fragments: Array<Fragment>, items: Array<out BottomNavigationItem>, listener: OnTabSelectedListener? = null, index: Int = 0, block: BottomNavigationBar.() -> Unit): BottomNavigationBar = body<LinearLayout>(R.layout.common_tab_layout) {
+    fun bottomBar(fragments: Array<Fragment>, items: Array<out BottomNavigationItem>, listener: OnTabSelectedListener? = null, index: Int = 0, block: BottomNavigationBar.() -> Unit): BottomNavigationBar = body<LinearLayout>(R.layout.common_tab_layout) {
         "走了这里$items".log()
         for (item in items) {
             bottom_navigation_bar.addItem(item)

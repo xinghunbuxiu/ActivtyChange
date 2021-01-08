@@ -14,9 +14,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity(
         ui = {
             titleBar {
-                title="nihao"
+                title = "nihao"
             }
             body(R.layout.activity_main)
+            swipeBack {}
         }
 ) {
     private val isServiceStart: Boolean
